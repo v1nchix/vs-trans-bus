@@ -94,7 +94,8 @@ h1 .lit{background:linear-gradient(95deg,#E9F1FF 0%,var(--ice) 55%,#5E9BFF 100%)
 .f span{font-size:12px;color:var(--muted)}
 .f input{width:100%;background:none;border:0;outline:none;font-size:16px;font-weight:400;color:var(--text);min-width:0}
 .f input::placeholder{color:#55657F}
-.f input[type=date]{color-scheme:dark}
+.f input[type=date]{color-scheme:dark;font-weight:400}
+.f input[type=date]:not(.has){color:#55657F}
 .go{display:flex;align-items:center;gap:8px;margin-top:10px}
 .go .pill{flex:1}
 .hint{padding:0 10px 0 14px;font-size:12.5px;line-height:1.45;color:var(--muted);max-width:290px}

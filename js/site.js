@@ -29,6 +29,8 @@ const form=document.getElementById('trip');
 if(form){
   const send=form.querySelector('.send');
   form.date.min=new Date().toISOString().slice(0,10);
+  // пустая дата серая, как остальные подсказки
+  const dt=()=>form.date.classList.toggle('has',!!form.date.value);form.date.addEventListener('input',dt);dt();
   const message=()=>{
     const d=new FormData(form),f=k=>(d.get(k)||'').toString().trim();
     const date=f('date')?new Date(f('date')).toLocaleDateString('ru-RU'):'';
