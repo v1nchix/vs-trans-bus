@@ -41,13 +41,6 @@ if(form){
   };
   form.addEventListener('submit',e=>{e.preventDefault();openSend(send,message())});
 
-  // карточки объектов и машин: подставляем выбор и возвращаем к конструктору
-  document.querySelectorAll('button.svc-go').forEach(b=>b.addEventListener('click',()=>{
-    form.service.value=b.dataset.service;
-    send.classList.remove('on');
-    form.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});
-    setTimeout(()=>form.from.focus({preventScroll:true}),600);
-  }));
 }
 
 // калькулятор
@@ -79,11 +72,19 @@ if(calc){
     out('seat').textContent=rub(month/(people*days*shifts*2));
     out('cars').textContent=cars.join(' + ');
     out('cnt').textContent=p.cnt+' '+plural(p.cnt,['машина','машины','машин'])+' на смену';
-    last=['Здравствуйте! Посчитал перевозку сотрудников на сайте.','Человек в смене: '+people,'Смен в сутки: '+shifts,
+    const svc=calc.elements.service.value;
+    last=['Здравствуйте! Посчитал перевозку сотрудников на сайте.',...(svc?['Интересует: '+svc]:[]),'Человек в смене: '+people,'Смен в сутки: '+shifts,
       'Часов работы машин на смену: '+hours,'Рабочих дней в месяц: '+days,'Машины: '+cars.join(' + '),'Примерно: '+rub(month)+' в месяц'].join('\n');
   };
   calc.addEventListener('input',run);calc.addEventListener('change',run);run();
   calc.addEventListener('submit',e=>{e.preventDefault();openSend(calc.querySelector('.send'),last)});
+  // кнопки «Рассчитать» на карточках: запоминаем выбор и ведём в калькулятор
+  document.querySelectorAll('button.svc-go').forEach(b=>b.addEventListener('click',()=>{
+    calc.elements.service.value=b.dataset.service;run();
+    calc.querySelector('.send').classList.remove('on');
+    document.getElementById('calc').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+    setTimeout(()=>calc.elements.people.focus({preventScroll:true}),700);
+  }));
 }
 
 // страница контактов: кнопки мессенджеров с текстом по умолчанию
@@ -102,3 +103,9 @@ if(drawer){
 // плавное появление блоков при прокрутке
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.head,.grid,.reveal').forEach(el=>io.observe(el));
+
+// активный пункт меню
+document.querySelectorAll('.menu a,.drawer nav a').forEach(a=>{
+  const h=a.getAttribute('href');
+  if(!h.includes('#')&&location.pathname.endsWith(h.replace(/^(\.\.\/)+/,'')))a.setAttribute('aria-current','page');
+});

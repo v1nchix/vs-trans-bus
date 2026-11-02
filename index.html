@@ -16,10 +16,11 @@
 <script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
+<a class="skip" href="#main">К содержанию</a>
 
 <section class="hero">
   <div class="horizon" aria-hidden="true"></div>
@@ -32,48 +33,24 @@
       <a href="stati/">Статьи</a>
       <a href="kontakty/">Контакты</a>
     </nav>
-    <a class="pill" href="#trip">Рассчитать перевозку</a>
+    <a class="pill" href="#calc">Рассчитать перевозку</a>
     <button class="round burger" type="button" aria-label="Открыть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"/></svg></button>
   </header>
 
-  <div class="center">
+  <main class="center" id="main">
     <span class="place in d1"><i></i>Москва и Московская область</span>
     <h1 class="in d2"><span class="lit">Перевозка сотрудников</span> под ваш график смен</h1>
-    <p class="lead in d3">Возим смены на склады, заводы и в офисы Москвы и области. Свой парк машин, свои водители и свой ремонтный ангар.</p>
+    <p class="lead in d3">Возим смены на склады, заводы и в офисы. Свой парк, свои водители, свой ремонтный ангар.</p>
+    <div class="cta in d4">
+      <a class="pill" href="#calc">Рассчитать стоимость</a>
+      <a class="pill ghost" href="kontakty/">Написать менеджеру</a>
+    </div>
+  </main>
 
-    <form class="trip in d4" id="trip" novalidate>
-      <input type="hidden" name="service">
-      <div class="modes" role="group" aria-label="Смены">
-        <label><input type="checkbox" name="shift" value="дневная" checked><span>Дневная смена</span></label>
-        <label><input type="checkbox" name="shift" value="ночная"><span>Ночная смена</span></label>
-      </div>
-      <div class="fields">
-        <label class="f wide"><span>Откуда</span><input name="from" placeholder="Город, метро или район" autocomplete="off"></label>
-        <label class="f wide"><span>Куда</span><input name="to" placeholder="Склад, завод, офис" autocomplete="off"></label>
-        <label class="f"><span>С какого числа</span><input name="date" type="date"></label>
-        <label class="f"><span>Человек в смене</span><input name="people" type="number" inputmode="numeric" min="1" max="999" placeholder="20"></label>
-      </div>
-      <div class="go">
-        <button class="pill" type="submit">Получить расчёт</button>
-        <button class="round" type="submit" aria-label="Получить расчёт"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></button>
-        <p class="hint">Отвечаем с 8:00 до 21:00. Ночью пишите, ответим утром до 11:00</p>
-      </div>
-      <div class="send" aria-live="polite">
-        <p>Заявка готова. Выберите, куда отправить менеджеру:</p>
-        <div class="msgs">
-          <a href="#" data-m="whatsapp" target="_blank" rel="noopener">WhatsApp</a>
-          <a href="#" data-m="telegram" target="_blank" rel="noopener">Telegram</a>
-          <a href="#" data-m="max" target="_blank" rel="noopener">MAX</a>
-        </div>
-        <p class="msg-note"></p>
-      </div>
-    </form>
-  </div>
-
-  <div class="stats in d5">
-    <div><b>30+</b><span>машин</span></div>
+  <div class="nums in d5">
+    <div><b>30+</b><span>машин в парке</span></div>
     <div><b>45+</b><span>водителей</span></div>
-    <div><b>15+</b><span>маршрутов</span></div>
+    <div><b>15+</b><span>маршрутов каждый день</span></div>
     <div><b>5000+</b><span>пассажиров в день</span></div>
   </div>
 </section>
@@ -87,7 +64,7 @@
     <a href="stati/">Статьи</a>
     <a href="kontakty/">Контакты</a>
   </nav>
-  <a class="pill" href="#trip">Рассчитать перевозку</a>
+  <a class="pill" href="#calc">Рассчитать перевозку</a>
 </div>
 
 <section class="clients" id="klienty">
@@ -157,6 +134,7 @@
       <p>Двигайте ползунки: калькулятор подберёт машины и покажет примерную сумму в месяц.</p>
     </div>
     <form class="calc" id="calc-form" novalidate>
+      <input type="hidden" name="service">
       <div class="calc-in glass reveal">
         <div class="ctl">
           <div class="ctl-top"><label for="c-people">Человек в смене</label><output data-o="people">60</output></div>
@@ -272,7 +250,7 @@
     <div class="final reveal">
       <h2><span class="lit">Пришлите адреса</span> и график смен</h2>
       <p>Построим маршрут, подберём машины и назовём цену. Ответим в мессенджере с 8:00 до 21:00.</p>
-      <div class="acts"><a class="pill" href="#trip">Рассчитать перевозку</a><a class="pill ghost" href="#calc">Открыть калькулятор</a></div>
+      <div class="acts"><a class="pill" href="#calc">Рассчитать стоимость</a><a class="pill ghost" href="kontakty/">Написать менеджеру</a></div>
     </div>
   </div>
 </section>
