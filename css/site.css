@@ -457,4 +457,60 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
   .route-list li{font-size:16px}
 }
 
+/* ===== редизайн, проход 2 ===== */
+/* объекты: склады крупно, заводы и офисы поменьше */
+@media (min-width:901px){
+  .services .grid{grid-template-columns:1.3fr 1fr;grid-template-rows:auto auto}
+  .services .svc:first-child{grid-row:span 2;aspect-ratio:auto;min-height:640px}
+  .services .svc:not(:first-child){aspect-ratio:16/10}
+  .services .svc:first-child h3{font-size:clamp(30px,2.8vw,42px);max-width:12ch}
+}
+/* шаги: линия маршрута с остановками */
+.route-line{position:relative;gap:28px}
+.route-line::before{content:"";position:absolute;left:22px;right:22px;top:22px;height:2px;background:linear-gradient(90deg,var(--blue),rgba(28,125,255,.15))}
+.route-line .step{padding:0;min-height:0;background:none;border:0}
+.route-line .step .n{position:relative;margin-bottom:0;box-shadow:0 0 0 8px var(--night),0 0 24px rgba(28,125,255,.6);font-size:17px}
+.route-line .step h3{margin-top:26px;font-size:22px}
+.route-line .step p{font-size:16px;max-width:30ch}
+@media (max-width:1000px){
+  .route-line::before{display:none}
+}
+@media (max-width:700px){
+  .route-line{gap:0;padding-left:0}
+  .route-line::before{display:block;left:21px;right:auto;top:22px;bottom:22px;width:2px;height:auto;background:linear-gradient(180deg,var(--blue),rgba(28,125,255,.15))}
+  .route-line .step{display:grid;grid-template-columns:44px 1fr;column-gap:18px;padding-bottom:28px}
+  .route-line .step .n{grid-row:span 2}
+  .route-line .step h3{margin-top:8px}
+}
+/* вопросы: все ответы на виду */
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+.qa{padding:28px 0;border-top:1px solid var(--line)}
+.qa h3{font-size:20px;font-weight:600;letter-spacing:-.015em}
+.qa p{margin-top:10px;font-size:16px;line-height:1.65;color:var(--muted);max-width:56ch}
+@media (max-width:800px){.qa-grid{grid-template-columns:1fr}.qa{padding:22px 0}}
+/* подвал */
+.foot .cols{grid-template-columns:1.2fr 1.4fr 1fr}
+.foot .links{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;align-content:start}
+.foot .copy a{display:inline;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:700px){.foot .cols{grid-template-columns:1fr}}
+/* финал: кнопка + текстовая ссылка */
+.tlink{display:inline-flex;align-items:center;height:52px;padding:0 14px;color:var(--soft);text-decoration:underline;text-underline-offset:5px;text-decoration-color:rgba(201,212,228,.4);transition:color .2s}
+.tlink:hover{color:#fff}
+.final .acts{align-items:center}
+/* стекло: тонкий блик сверху и свет за курсором */
+.glass,.svc,.car,.final{box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.spot{--x:50%;--y:50%}
+.spot::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:0;transition:opacity .35s;z-index:3;
+  background:radial-gradient(240px circle at var(--x) var(--y),rgba(156,194,255,.9),rgba(156,194,255,.12) 45%,transparent 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+@media (hover:hover){.spot:hover::after{opacity:1}}
+.brand-card,.routes,.calc-in,.calc-out,.contact,.post{position:relative}
+/* скругления: большие у блоков, меньше у вложенных */
+.route-list li,.per div{border-radius:14px}
+.logo-plate{border-radius:18px}
+/* отступ снизу у секций чуть больше верхнего */
+.sec{padding:120px 0 140px}
+.sec.tight{padding:90px 0 110px}
+@media (max-width:700px){.sec{padding:80px 0 92px}.sec.tight{padding:60px 0 72px}}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}.js .reveal,.js .svc,.js .head{opacity:1;transform:none}}

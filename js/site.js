@@ -118,3 +118,10 @@ if(!reduce)document.querySelectorAll('.nums b').forEach(b=>{
   const tick=t=>{const k=Math.min(1,Math.max(0,(t-t0)/dur)),e=1-Math.pow(1-k,3);b.textContent=Math.round(end*e)+tail;if(k<1)requestAnimationFrame(tick)};
   requestAnimationFrame(tick);
 });
+
+// свет и обводка за курсором на плашках
+if(matchMedia('(hover:hover)').matches)document.querySelectorAll('.glass,.svc,.car,.final').forEach(el=>{
+  if(el.closest('.hero'))return;
+  el.classList.add('spot');
+  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--x',(e.clientX-r.left)+'px');el.style.setProperty('--y',(e.clientY-r.top)+'px')});
+});
