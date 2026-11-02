@@ -442,4 +442,19 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
   .horizon{top:calc(100% - 200px)}
 }
 
+/* ===== ui-ux-pro-max: планшет, зоны нажатия, длина строки ===== */
+@media (max-width:900px) and (min-width:701px){
+  .grid,.fleet{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 6px;scroll-padding:0 16px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .grid::-webkit-scrollbar,.fleet::-webkit-scrollbar{display:none}
+  .svc,.car{flex:0 0 46%;scroll-snap-align:start}
+}
+.svc-go.link{display:inline-block;padding:10px 0}
+.head p a.txt{display:inline-block;padding:10px 0}
+.crumbs a{padding:10px 0}
+.prose{max-width:680px}
+@media (max-width:700px){
+  .foot a{padding:9px 0;line-height:1.4}
+  .route-list li{font-size:16px}
+}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}.js .reveal,.js .svc,.js .head{opacity:1;transform:none}}

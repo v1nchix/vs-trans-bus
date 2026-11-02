@@ -109,3 +109,12 @@ document.querySelectorAll('.menu a,.drawer nav a').forEach(a=>{
   const h=a.getAttribute('href');
   if(!h.includes('#')&&location.pathname.endsWith(h.replace(/^(\.\.\/)+/,'')))a.setAttribute('aria-current','page');
 });
+
+// счётчики цифр на первом экране
+if(!reduce)document.querySelectorAll('.nums b').forEach(b=>{
+  const m=b.textContent.match(/(\d+)(.*)/);if(!m)return;
+  const end=+m[1],tail=m[2],t0=performance.now()+700,dur=1400;
+  b.textContent='0'+tail;
+  const tick=t=>{const k=Math.min(1,Math.max(0,(t-t0)/dur)),e=1-Math.pow(1-k,3);b.textContent=Math.round(end*e)+tail;if(k<1)requestAnimationFrame(tick)};
+  requestAnimationFrame(tick);
+});
