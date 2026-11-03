@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Варианты «Как работаем» — ВС ТРАНС БУС</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<style>
+  .var-label { margin: 64px 0 0; padding-bottom: 10px; border-bottom: 1px dashed var(--line); font-size: 15px; font-weight: 600; }
+  .var-label span { color: var(--muted); font-weight: 400; }
+  .block { padding-top: 32px; }
+  .ico { width: 44px; height: 44px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* A. путь клиента 01–04 */
+  .path { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; counter-reset: s; }
+  .path > div { position: relative; background: var(--card); border-radius: var(--r-lg); padding: 26px 24px 28px; }
+  .path b { display: block; font-size: 56px; font-weight: 800; letter-spacing: -.04em; line-height: 1; color: var(--ink); opacity: .14; }
+  .path h3 { margin-top: 22px; font-size: 19px; font-weight: 600; }
+  .path p { margin-top: 8px; font-size: 14.5px; color: var(--muted); }
+  .path > div:not(:last-child)::after { content: ""; position: absolute; right: -16px; top: 46px; width: 14px; height: 14px; z-index: 1;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%230B1B36' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 8h10M9 4l4 4-4 4'/%3E%3C/svg%3E") center/contain no-repeat; }
+  .path > div:last-child { background: var(--ink); color: #fff; }
+  .path > div:last-child b { color: #fff; opacity: .25; }
+  .path > div:last-child p { color: rgba(255,255,255,.7); }
+
+  /* B. редакционный список: заголовок слева, строки справа */
+  .ed { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; align-items: start; }
+  .ed-head { position: sticky; top: 110px; }
+  .ed-row { display: grid; grid-template-columns: 70px 1fr 1.2fr; gap: 24px; align-items: baseline; padding: 26px 0; border-top: 1px solid var(--line); }
+  .ed-row:last-child { border-bottom: 1px solid var(--line); }
+  .ed-row b { font-size: 15px; color: var(--muted); font-weight: 500; }
+  .ed-row h3 { font-size: 24px; font-weight: 600; letter-spacing: -.015em; }
+  .ed-row p { color: var(--muted); font-size: 15px; }
+
+  /* C. тёмная секция, карточки со светящимися значками */
+  .dk { background: var(--ink); color: #fff; border-radius: var(--r-xl); padding: clamp(28px, 4vw, 56px); }
+  .dk-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 34px; }
+  .dk-card { border-radius: var(--r-lg); padding: 26px 24px 28px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); transition: background-color .3s var(--ease); }
+  .dk-card:hover { background: rgba(255,255,255,.09); }
+  .dk-ic { width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center; background: radial-gradient(circle at 30% 30%, #2f5aa8, #12305f); box-shadow: 0 0 30px rgba(110,155,255,.35); color: #fff; }
+  .dk-card h3 { margin-top: 24px; font-size: 18px; font-weight: 600; }
+  .dk-card p { margin-top: 8px; font-size: 14.5px; color: rgba(255,255,255,.65); }
+
+  /* D. аккордеон */
+  .acc { border-top: 1px solid var(--line); }
+  .acc details { border-bottom: 1px solid var(--line); }
+  .acc summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 60px 1fr 44px; align-items: center; gap: 16px; padding: 24px 0; }
+  .acc summary::-webkit-details-marker { display: none; }
+  .acc summary b { font-size: 15px; color: var(--muted); font-weight: 500; }
+  .acc summary h3 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 600; letter-spacing: -.02em; }
+  .acc summary i { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--line); position: relative; transition: transform .3s var(--ease), background-color .3s var(--ease); }
+  .acc summary i::before, .acc summary i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; margin: -1px -7px; background: var(--ink); }
+  .acc summary i::after { transform: rotate(90deg); }
+  .acc details[open] summary i { transform: rotate(45deg); background: var(--ink); }
+  .acc details[open] summary i::before, .acc details[open] summary i::after { background: #fff; }
+  .acc details p { padding: 0 60px 26px 76px; color: var(--muted); max-width: 760px; }
+
+  /* E. линия с автобусом, который едет при прокрутке */
+  .tl { position: relative; padding-top: 70px; }
+  .tl-line { position: absolute; left: 0; right: 0; top: 34px; height: 3px; background: repeating-linear-gradient(90deg, var(--navy) 0 14px, transparent 14px 22px); opacity: .25; }
+  .tl-fill { position: absolute; left: 0; top: 34px; height: 3px; background: var(--navy); width: 0; }
+  .tl-bus { position: absolute; top: 18px; left: 0; width: 46px; height: 24px; margin-left: -23px; color: var(--navy); }
+  .tl-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .tl-steps div::before { content: ""; position: absolute; margin-top: -45px; width: 18px; height: 18px; border-radius: 50%; border: 4px solid var(--navy); background: var(--bg); }
+  .tl-steps div { position: relative; }
+  .tl-steps h3 { font-size: 19px; font-weight: 600; }
+  .tl-steps p { margin-top: 8px; font-size: 14.5px; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .path, .dk-grid, .tl-steps { grid-template-columns: 1fr 1fr; }
+    .path > div::after { display: none; }
+    .ed { grid-template-columns: 1fr; }
+    .ed-head { position: static; }
+    .ed-row { grid-template-columns: 40px 1fr; }
+    .ed-row p { grid-column: 2; }
+    .acc details p { padding: 0 0 22px 0; }
+    .acc summary { grid-template-columns: 34px 1fr 40px; }
+  }
+  @media (max-width: 560px) { .path, .dk-grid, .tl-steps { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <p class="var-label" style="margin-top:28px">Сейчас <span>для сравнения: вкладки и четыре карточки</span></p>
+  <section class="block">
+    <div class="block__head"><div><p class="eyebrow">как мы работаем</p><h2 class="block__title">Берём на себя всё</h2></div>
+      <div class="tabs"><button class="tab is-on" type="button">Маршрут</button><button class="tab" type="button">Водители</button><button class="tab" type="button">Ремонт</button><button class="tab" type="button">Каждый день</button></div></div>
+    <div class="steps" id="now"></div>
+  </section>
+
+  <p class="var-label">A. <span>Путь клиента от заявки до работы: 01 → 04, последний шаг тёмный. Меняется смысл блока: «как начать с нами работать» (тексты мои, сверить)</span></p>
+  <section class="block">
+    <div class="block__head"><div><p class="eyebrow">как мы работаем</p><h2 class="block__title">Как начать работать с нами</h2></div></div>
+    <div class="path">
+      <div><b>01</b><h3>Заявка</h3><p>Пишете в мессенджер: откуда, куда, сколько людей и время смен.</p></div>
+      <div><b>02</b><h3>Расчёт маршрута</h3><p>Подбираем машины, точки сбора и расписание под ваши смены.</p></div>
+      <div><b>03</b><h3>Договор</h3><p>Фиксируем маршрут, график и стоимость.</p></div>
+      <div><b>04</b><h3>Возим каждый день</h3><p>Свои автобусы, свои водители и свой ремонтный ангар.</p></div>
+    </div>
+  </section>
+
+  <p class="var-label">B. <span>Строгий список: заголовок слева стоит на месте, справа строки с номерами и тонкими линиями</span></p>
+  <section class="block">
+    <div class="ed">
+      <div class="ed-head"><p class="eyebrow">как мы работаем</p><h2 class="block__title">Берём на себя всё</h2><a class="btn btn--dark" href="#" style="margin-top:26px">Обсудить маршрут <span class="btn__arrow"></span></a></div>
+      <div id="ed"></div>
+    </div>
+  </section>
+
+  <p class="var-label">C. <span>Тёмная секция, у карточек светящиеся синие значки</span></p>
+  <section class="block">
+    <div class="dk"><p class="eyebrow eyebrow--light">как мы работаем</p><h2 class="block__title">Берём на себя всё</h2><div class="dk-grid" id="dk"></div></div>
+  </section>
+
+  <p class="var-label">D. <span>Аккордеон: крупные строки, нажимаешь на плюс, раскрывается подробность (первая открыта)</span></p>
+  <section class="block">
+    <div class="block__head"><div><p class="eyebrow">как мы работаем</p><h2 class="block__title">Берём на себя всё</h2></div></div>
+    <div class="acc" id="acc"></div>
+  </section>
+
+  <p class="var-label">E. <span>Линия с автобусом: при прокрутке автобус едет по линии и проезжает шаги</span></p>
+  <section class="block" id="tlsec">
+    <div class="block__head"><div><p class="eyebrow">как мы работаем</p><h2 class="block__title">Берём на себя всё</h2></div></div>
+    <div class="tl">
+      <div class="tl-line"></div><div class="tl-fill" id="tlfill"></div>
+      <svg class="tl-bus" id="tlbus" viewBox="0 0 46 24" fill="currentColor"><rect x="1" y="1" width="42" height="16" rx="4"/><rect x="5" y="4" width="30" height="6" rx="1.5" fill="#F4F1EC"/><circle cx="11" cy="19" r="3.5"/><circle cx="34" cy="19" r="3.5"/></svg>
+      <div class="tl-steps" id="tl"></div>
+    </div>
+  </section>
+  <div style="height:70vh"></div>
+</div>
+<script>
+const icons = [
+  '<svg class="ico" viewBox="0 0 40 40"><circle cx="9" cy="31" r="4"/><circle cx="31" cy="9" r="4"/><path d="M13 31h12a6 6 0 0 0 0-12H15a6 6 0 0 1 0-12h12"/></svg>',
+  '<svg class="ico" viewBox="0 0 40 40"><circle cx="20" cy="13" r="6"/><path d="M8 34c1.5-7 6-10 12-10s10.5 3 12 10"/></svg>',
+  '<svg class="ico" viewBox="0 0 40 40"><path d="M5 34V16L20 6l15 10v18"/><path d="M12 34V22h16v12"/><path d="M12 27h16"/></svg>',
+  '<svg class="ico" viewBox="0 0 40 40"><rect x="6" y="9" width="28" height="25" rx="3"/><path d="M6 16h28M13 5v7M27 5v7"/><path d="M14 25l4 4 8-8"/></svg>',
+];
+const steps = [
+  { t: 'Маршрут под смену', p: 'Строим маршрут и расписание под время начала и конца ваших смен.' },
+  { t: 'Свои водители', p: '45+ водителей. За каждым маршрутом закреплены люди, которые его знают.' },
+  { t: 'Свой ремонтный ангар', p: 'Обслуживаем машины сами, поэтому на линию они выходят исправными.' },
+  { t: '5000+ пассажиров в день', p: 'Маршруты работают каждый день по Москве и области.' },
+];
+document.getElementById('now').innerHTML = steps.map((s, i) => `<div class="step${i ? '' : ' is-on'}">${icons[i].replace('class="ico"', 'class="step__icon"')}<h3 class="step__title">${s.t}</h3><p class="step__text">${s.p}</p></div>`).join('');
+document.getElementById('ed').innerHTML = steps.map((s, i) => `<div class="ed-row"><b>0${i + 1}</b><h3>${s.t}</h3><p>${s.p}</p></div>`).join('');
+document.getElementById('dk').innerHTML = steps.map((s, i) => `<div class="dk-card"><div class="dk-ic">${icons[i]}</div><h3>${s.t}</h3><p>${s.p}</p></div>`).join('');
+document.getElementById('acc').innerHTML = steps.map((s, i) => `<details${i ? '' : ' open'}><summary><b>0${i + 1}</b><h3>${s.t}</h3><i></i></summary><p>${s.p}</p></details>`).join('');
+document.getElementById('tl').innerHTML = steps.map((s) => `<div><h3>${s.t}</h3><p>${s.p}</p></div>`).join('');
+
+// E: автобус едет по линии, пока блок проезжает экран
+const sec = document.getElementById('tlsec'), bus = document.getElementById('tlbus'), fill = document.getElementById('tlfill');
+function drive() {
+  const r = sec.getBoundingClientRect();
+  const p = Math.min(Math.max((innerHeight * .8 - r.top) / (r.height + innerHeight * .2), 0), 1);
+  bus.style.left = (p * 100) + '%';
+  fill.style.width = (p * 100) + '%';
+}
+addEventListener('scroll', drive, { passive: true });
+drive();
+</script>
+</body>
+</html>
