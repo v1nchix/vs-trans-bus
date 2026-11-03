@@ -628,3 +628,140 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
 }
 
 @media (prefers-reduced-motion:reduce){.map .buses{display:none}.map .rts path{stroke-dashoffset:0;animation:none}.map .pin{opacity:1;animation:none}}
+
+/* ===== премиум 03.11: студия, полоски, сцена, лента, цифры, табло ===== */
+:root{--studio:#01112A}
+/* полоски скорости из логотипа */
+.stripes{display:inline-block;flex:none;width:30px;height:10px;transform:skewX(-20deg);
+  background:linear-gradient(90deg,currentColor,transparent) 0 0/100% 2px no-repeat,linear-gradient(90deg,currentColor,transparent) 6px 4px/80% 2px no-repeat,linear-gradient(90deg,currentColor,transparent) 12px 8px/60% 2px no-repeat}
+.cap{display:inline-flex;align-items:center;gap:12px;font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ice)}
+.head h2::before{content:"";display:block;width:44px;height:12px;margin-bottom:22px;transform:skewX(-20deg);color:var(--ice);
+  background:linear-gradient(90deg,currentColor,transparent) 0 0/100% 2px no-repeat,linear-gradient(90deg,currentColor,transparent) 8px 5px/80% 2px no-repeat,linear-gradient(90deg,currentColor,transparent) 16px 10px/60% 2px no-repeat}
+/* кнопка: при наведении слева «разгоняются» полоски */
+.pill{position:relative;overflow:hidden}
+.pill::before{content:"";position:absolute;left:14px;top:50%;width:16px;height:10px;opacity:0;transform:translate(-26px,-50%) skewX(-20deg);transition:transform .35s cubic-bezier(.23,1,.32,1),opacity .2s;
+  background:linear-gradient(90deg,currentColor,transparent) 0 0/100% 2px no-repeat,linear-gradient(90deg,currentColor,transparent) 3px 4px/80% 2px no-repeat,linear-gradient(90deg,currentColor,transparent) 6px 8px/60% 2px no-repeat}
+@media (hover:hover) and (pointer:fine){
+  .pill{transition:transform .16s cubic-bezier(.23,1,.32,1),box-shadow .25s ease,padding .35s cubic-bezier(.23,1,.32,1),translate .3s cubic-bezier(.23,1,.32,1)}
+  .pill:hover{padding-left:38px;padding-right:18px}
+  .pill:hover::before{opacity:.7;transform:translate(0,-50%) skewX(-20deg)}
+  .round{transition:transform .16s cubic-bezier(.23,1,.32,1),box-shadow .25s ease,translate .3s cubic-bezier(.23,1,.32,1)}
+}
+
+/* первый экран: машина в студии и огромный заголовок */
+.hero-studio{background:radial-gradient(60% 60% at 72% 64%,#0A2D63 0%,var(--studio) 60%,#000A18 100%)}
+.hero-studio::before{opacity:.3}
+.studio{position:absolute;z-index:1;left:calc(max(16px,(100% - var(--wrap))/2) + min(100% - 32px,var(--wrap))*.46);bottom:-12vh;width:min(54vw,900px);pointer-events:none;animation:studioin 1.6s cubic-bezier(.23,1,.32,1) .15s both;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent),linear-gradient(transparent,#000 22%,#000 72%,transparent);-webkit-mask-composite:source-in;
+  mask:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent),linear-gradient(transparent,#000 22%,#000 72%,transparent);mask-composite:intersect}
+.studio img{display:block;width:100%;height:auto}
+@keyframes studioin{from{opacity:0;transform:translateX(6vw)}to{opacity:1;transform:none}}
+.hero-studio .center{align-items:flex-start;text-align:left;justify-content:space-between;padding:6vh 0 8vh}
+.mega{margin-top:26px;max-width:none;font-size:clamp(56px,7vw,100px);line-height:.9;letter-spacing:-.06em;text-wrap:nowrap}
+.mega .lit{display:block}
+.mega small{display:block;margin-top:22px;font-size:clamp(20px,1.9vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.2;color:var(--soft)}
+.hero-foot{max-width:520px;margin-top:40px}
+.hero-foot .lead{margin-top:0;font-size:clamp(16px,1.25vw,19px)}
+.hero-foot .cta{justify-content:flex-start;margin-top:28px}
+@media (max-width:700px){
+  .hero-studio .center{display:contents}
+  .hero-studio .center>*{width:calc(100% - 32px);margin-left:auto;margin-right:auto}
+  .hero-studio .cap{order:1;margin-top:18px;font-size:11px}
+  .mega{order:2;margin-top:18px;font-size:clamp(40px,12.4vw,64px);text-wrap:balance}
+  .mega small{margin-top:14px;font-size:18px}
+  .studio{order:3;position:relative;left:auto;bottom:auto;width:150vw!important;max-width:none;margin:-14vw -25vw -18vw!important}
+  .hero-foot{order:4;margin-top:0;padding-bottom:calc(32px + env(safe-area-inset-bottom))}
+  .hero-foot .cta .pill{flex:1 1 100%}
+}
+
+/* сцена: автобус проезжает через экран при прокрутке */
+.drive{position:relative;background:var(--studio)}
+.drive-in{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4vh;padding:80px 0;
+  background:radial-gradient(60% 45% at 50% 66%,#0A2D63,var(--studio) 72%)}
+.drive-words{list-style:none;display:grid;gap:18px;text-align:center;width:calc(100% - 32px)}
+.drive-words li{font-size:clamp(38px,6.4vw,112px);font-weight:600;letter-spacing:-.055em;line-height:.95}
+.drive-words .cap{display:flex;justify-content:center;margin-bottom:18px}
+.drive-bus{display:block;width:min(64vw,920px);height:auto;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent),linear-gradient(transparent,#000 22%,#000 72%,transparent);-webkit-mask-composite:source-in;
+  mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent),linear-gradient(transparent,#000 22%,#000 72%,transparent);mask-composite:intersect}
+.drive-lines{position:absolute;inset:0;pointer-events:none}
+.drive-lines i{position:absolute;left:0;height:1px;width:34vw;opacity:0;background:linear-gradient(90deg,transparent,rgba(156,194,255,.7),transparent)}
+/* со скриптом: блок закрепляется, автобус едет слева направо, фразы сменяются */
+.drive.live{height:300vh}
+.drive.live .drive-in{position:sticky;top:0;height:100vh;height:100svh;padding:0;display:block}
+.drive.live .drive-words{position:absolute;left:16px;right:16px;top:15vh;width:auto;display:block}
+.drive.live .drive-words li{position:absolute;left:0;right:0;opacity:0;transform:translateY(28px);transition:opacity .5s cubic-bezier(.23,1,.32,1),transform .5s cubic-bezier(.23,1,.32,1)}
+.drive.live .drive-words li.on{opacity:1;transform:none}
+.drive.live .drive-bus{position:absolute;left:50%;top:62%;will-change:transform;transform:translate(calc(-50% + var(--bx,0vw)),-50%)}
+.drive.live .drive-lines i{opacity:var(--lv,0);transform:translateX(var(--lx,0))}
+.drive-lines i:nth-child(1){top:58%}.drive-lines i:nth-child(2){top:66%;width:22vw}.drive-lines i:nth-child(3){top:72%;width:40vw}.drive-lines i:nth-child(4){top:79%;width:18vw}.drive-lines i:nth-child(5){top:85%;width:28vw}
+@media (max-width:700px){
+  .drive-bus{width:120vw}
+  .drive.live{height:260vh}
+  .drive.live .drive-words{top:18svh}
+  .drive.live .drive-bus{top:60%}
+}
+
+/* автопарк: лента едет вбок */
+.rail{position:relative;background:var(--studio)}
+.rail-in{padding:100px 0 110px}
+.rail-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:44px}
+.rail-head h2{max-width:14ch}
+.rail-head p{max-width:400px;font-size:17px;line-height:1.6;color:var(--muted)}
+.rail-head a.txt{display:inline-block;padding:10px 0;color:var(--ice);text-decoration:underline;text-underline-offset:4px}
+.track{display:flex;gap:24px;padding:0 max(16px,(100% - var(--wrap))/2);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 16px;scrollbar-width:none;overscroll-behavior-x:contain}
+.track::-webkit-scrollbar{display:none}
+.slide{position:relative;flex:0 0 min(1040px,86vw);display:grid;grid-template-columns:.9fr 1fr;border-radius:36px;overflow:hidden;scroll-snap-align:start;
+  background:linear-gradient(135deg,rgba(28,70,140,.35),rgba(6,22,50,.6));border:1px solid var(--line)}
+.slide figure{position:relative;min-height:520px;overflow:hidden}
+.slide figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 58%}
+.slide-text{display:flex;flex-direction:column;gap:22px;padding:48px 48px 44px}
+.slide h3{font-size:clamp(30px,3.2vw,50px);font-weight:600;letter-spacing:-.045em;line-height:1}
+.slide-nums{display:flex;gap:44px;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.slide-nums b{display:block;font-size:clamp(40px,4.6vw,76px);font-weight:600;letter-spacing:-.055em;line-height:1;font-variant-numeric:tabular-nums}
+.slide-nums span{display:block;margin-top:8px;font-size:15px;color:var(--soft)}
+.slide p{font-size:16px;line-height:1.6;color:var(--muted);max-width:34ch}
+.slide .svc-go{margin-top:auto}
+.rail.live .rail-in{position:sticky;top:0;height:100vh;padding:0;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.rail.live .track{overflow:visible;will-change:transform;transform:translateX(var(--tx,0px))}
+@media (max-height:760px) and (min-width:901px){.slide figure{min-height:440px}.slide-text{padding:36px 40px;gap:16px}.rail-head{margin-bottom:28px}}
+@media (max-width:900px){
+  .rail-head{flex-direction:column;align-items:flex-start;gap:14px}
+  .slide{grid-template-columns:1fr;flex-basis:86vw}
+  .slide figure{min-height:0;aspect-ratio:4/3}
+  .slide-text{padding:26px 22px 24px;gap:16px}
+  .slide-nums{gap:28px;padding:16px 0}
+}
+@media (max-width:700px){.rail-in{padding:72px 0 80px}}
+
+/* цифры во всю ширину */
+.big-nums{position:relative;background:var(--studio);padding:40px 0 0}
+.bn{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:26px 0;border-top:1px solid rgba(156,194,255,.16)}
+.bn:nth-child(even){flex-direction:row-reverse}
+.bn b{font-size:clamp(80px,13vw,230px);font-weight:600;letter-spacing:-.065em;line-height:.85;font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg,#fff 35%,#5E9BFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bn span{display:inline-flex;align-items:center;gap:14px;font-size:clamp(16px,1.7vw,26px);color:var(--soft);max-width:12em}
+.bn span .stripes{color:var(--ice)}
+/* рассвет: ночной синий плавно переходит в светлые блоки */
+.dawn{height:44vh;margin-top:80px;background:linear-gradient(180deg,var(--studio) 0%,#0B2A5C 28%,#2E5EA6 52%,#9BB9E6 78%,#F3F6FB 100%)}
+.light::after{content:"";display:block;height:34vh;margin-bottom:-110px;margin-top:110px;background:linear-gradient(180deg,#F3F6FB 0%,#9BB9E6 25%,#1D3F78 60%,var(--night) 100%)}
+@media (max-width:700px){
+  .bn,.bn:nth-child(even){flex-direction:column;align-items:flex-start;padding:20px 0 22px;gap:10px}
+  .bn b{font-size:clamp(64px,21vw,110px)}
+  .bn span{font-size:15px;gap:10px}
+  .dawn{height:30vh;margin-top:56px}
+  .light::after{height:22vh;margin-bottom:-80px;margin-top:80px}
+}
+
+/* калькулятор: сумма как вокзальное табло */
+.big .tiles{display:inline-flex;perspective:400px}
+.big .d{position:relative;display:inline-block;min-width:.64em;padding:.06em .03em;margin-right:.05em;text-align:center;border-radius:.12em;
+  background:linear-gradient(180deg,rgba(0,10,30,.55) 50%,rgba(0,10,30,.38) 50%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.big .d::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.5)}
+.big .d.sp{min-width:.22em;background:none;box-shadow:none}
+.big .d.sp::after{display:none}
+.big .d.flip{animation:flip .34s cubic-bezier(.4,0,.2,1)}
+@keyframes flip{0%{transform:rotateX(0)}45%{transform:rotateX(-88deg);opacity:.4}100%{transform:rotateX(0)}}
+.big small{margin-left:8px}
+
+@media (prefers-reduced-motion:reduce){.studio{animation:none}.big .d.flip{animation:none}}

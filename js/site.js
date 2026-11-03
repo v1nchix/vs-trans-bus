@@ -59,6 +59,21 @@ if(calc){
     return best;
   };
   const plural=(n,f)=>f[(n%10===1&&n%100!==11)?0:(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?1:2];
+  // сумма как вокзальное табло: меняются только те цифры, что изменились
+  const board=(el,s)=>{
+    let tiles=el.querySelector('.tiles');
+    if(!tiles){el.innerHTML='<span class="tiles"></span><small>₽ в месяц</small>';tiles=el.firstChild}
+    const chars=[...s.replace(/\s/g,' ')],old=[...tiles.children];
+    while(tiles.children.length>chars.length)tiles.lastChild.remove();
+    chars.forEach((c,i)=>{
+      let d=tiles.children[i];
+      if(!d){d=document.createElement('span');tiles.append(d)}
+      if(d.textContent===c)return;
+      d.textContent=c;d.className='d'+(c===' '?' sp':'');
+      if(!reduce&&old[i]){d.offsetWidth;d.classList.add('flip')}
+    });
+    el.setAttribute('aria-label',s+' рублей в месяц');
+  };
   let last='';
   const run=()=>{
     const v=k=>+calc.elements[k].value;
@@ -67,7 +82,7 @@ if(calc){
     out('people').value=people;out('hours').value=hours+' ч';out('days').value=days;
     const p=pick(people),day=p.cost*hours*shifts,month=day*days;
     const cars=[[p.c,2],[p.b,1],[p.a,0]].filter(x=>x[0]).map(([n,i])=>n+' × '+VEH[i].n);
-    out('month').innerHTML=rub(month).replace(' ₽','')+' <small>₽ в месяц</small>';
+    board(out('month'),rub(month).replace(' ₽',''));
     out('day').textContent=rub(day);
     out('seat').textContent=rub(month/(people*days*shifts*2));
     out('cars').textContent=cars.join(' + ');
@@ -110,17 +125,67 @@ document.querySelectorAll('.menu a,.drawer nav a').forEach(a=>{
   if(!h.includes('#')&&location.pathname.endsWith(h.replace(/^(\.\.\/)+/,'')))a.setAttribute('aria-current','page');
 });
 
-// счётчики цифр на первом экране
-if(!reduce)document.querySelectorAll('.nums b').forEach(b=>{
-  const m=b.textContent.match(/(\d+)(.*)/);if(!m)return;
-  const end=+m[1],tail=m[2],t0=performance.now()+700,dur=1400;
-  b.textContent='0'+tail;
+// крупные цифры: считают до своего значения, когда показались
+const count=b=>{
+  const m=b.textContent.match(/(\d+)(.*)/);if(!m||reduce)return;
+  const end=+m[1],tail=m[2],t0=performance.now(),dur=1400;
   const tick=t=>{const k=Math.min(1,Math.max(0,(t-t0)/dur)),e=1-Math.pow(1-k,3);b.textContent=Math.round(end*e)+tail;if(k<1)requestAnimationFrame(tick)};
   requestAnimationFrame(tick);
+};
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){count(e.target);cio.unobserve(e.target)}}),{threshold:.5});
+document.querySelectorAll('.bn b').forEach(b=>cio.observe(b));
+
+// сцена: автобус проезжает через экран, фразы сменяются
+const drive=document.querySelector('.drive');
+// лента автопарка: на компьютере едет вбок при прокрутке, на телефоне листается пальцем
+const rail=document.querySelector('.rail');
+if(!reduce&&(drive||rail)){
+  const words=drive?[...drive.querySelectorAll('.drive-words li')]:[];
+  const lines=drive?[...drive.querySelectorAll('.drive-lines i')]:[];
+  const track=rail&&rail.querySelector('.track');
+  const wide=matchMedia('(min-width:901px) and (min-height:600px)');
+  if(drive)drive.classList.add('live');
+  let lastY=scrollY,speed=0,dist=0;
+  const setRail=()=>{
+    if(!rail)return;
+    rail.classList.toggle('live',wide.matches);
+    const s=track.children,pad=parseFloat(getComputedStyle(track).paddingLeft);
+    // насколько сдвинуть ленту, чтобы последняя машина встала по правому краю сетки
+    dist=Math.max(0,s[s.length-1].offsetLeft+s[s.length-1].offsetWidth-s[0].offsetLeft-(document.documentElement.clientWidth-2*pad));
+    rail.style.height=wide.matches?(innerHeight+dist)+'px':'';
+    if(!wide.matches)track.style.removeProperty('--tx');
+  };
+  const prog=el=>{const r=el.getBoundingClientRect(),h=r.height-innerHeight;return h>0?Math.min(1,Math.max(0,-r.top/h)):0};
+  // положение считаем прямо при прокрутке; скорость линий плавно гаснет отдельным кадром
+  const update=()=>{
+    speed=Math.min(60,speed*.6+Math.abs(scrollY-lastY));lastY=scrollY;
+    if(drive){
+      const p=prog(drive);
+      drive.style.setProperty('--bx',(-75+150*p).toFixed(2)+'vw');
+      const k=Math.min(2,Math.floor(p*3));
+      words.forEach((w,i)=>w.classList.toggle('on',i===k));
+      lines.forEach((l,i)=>l.style.setProperty('--lx',(((1-p)*(140+i*30))-40).toFixed(1)+'vw'));
+    }
+    if(rail&&rail.classList.contains('live'))track.style.setProperty('--tx',(-prog(rail)*dist).toFixed(1)+'px');
+  };
+  let fading=false;
+  const fade=()=>{
+    speed*=.9;if(drive)drive.style.setProperty('--lv',Math.min(.9,speed/25).toFixed(2));
+    if(speed>.5)requestAnimationFrame(fade);else{fading=false;if(drive)drive.style.setProperty('--lv',0)}
+  };
+  addEventListener('scroll',()=>{update();if(!fading){fading=true;requestAnimationFrame(fade)}},{passive:true});
+  const setAll=()=>{setRail();update()};
+  setAll();addEventListener('resize',setAll);addEventListener('load',setAll);
+}
+
+// кнопки слегка притягиваются к курсору
+if(!reduce&&matchMedia('(hover:hover) and (pointer:fine)').matches)document.querySelectorAll('.pill,.round').forEach(b=>{
+  b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.translate=((e.clientX-r.left-r.width/2)*.18).toFixed(1)+'px '+((e.clientY-r.top-r.height/2)*.3).toFixed(1)+'px'});
+  b.addEventListener('pointerleave',()=>{b.style.translate=''});
 });
 
 // свет и обводка за курсором на плашках
-if(matchMedia('(hover:hover)').matches)document.querySelectorAll('.glass,.svc,.car,.final').forEach(el=>{
+if(matchMedia('(hover:hover)').matches)document.querySelectorAll('.glass,.svc,.car,.final,.slide').forEach(el=>{
   if(el.closest('.hero'))return;
   el.classList.add('spot');
   el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--x',(e.clientX-r.left)+'px');el.style.setProperty('--y',(e.clientY-r.top)+'px')});
