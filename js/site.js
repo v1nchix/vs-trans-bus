@@ -135,7 +135,7 @@ const count=b=>{
 const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){count(e.target);cio.unobserve(e.target)}}),{threshold:.5});
 document.querySelectorAll('.bn b').forEach(b=>cio.observe(b));
 
-// сцена проезда: видео автобуса прокручивается кадр за кадром вместе со страницей, фразы сменяются
+// первый экран: видео автобуса прокручивается кадр за кадром вместе со страницей, фразы сменяются
 const drive=document.querySelector('.drive');
 // лента автопарка: на компьютере едет вбок при прокрутке, на телефоне листается пальцем
 const rail=document.querySelector('.rail');
@@ -156,7 +156,7 @@ if(!reduce&&(drive||rail)){
     while(!(frames[i]&&frames[i].complete&&frames[i].naturalWidth)){j++;if(j>N)return;i=want+(j%2?-1:1)*Math.ceil(j/2);if(i<0||i>=N)i=want}
     if(i===shown)return;shown=i;
     const im=frames[i],W=film.width,H=film.height,iw=im.naturalWidth,ih=im.naturalHeight;
-    const phone=W<H,s=phone?W/iw*2:Math.max(W/iw,H/ih),w=iw*s,h=ih*s,x=(W-w)/2,y=phone?H*.58-h/2:(H-h)/2;
+    const phone=W<H,s=phone?H*.47/ih:Math.max(W/iw,H/ih),w=iw*s,h=ih*s,x=phone?W*.5-w*.35:(W-w)*.3,y=phone?H*.565-h/2:(H-h)/2;
     ctx.fillStyle='#01112A';ctx.fillRect(0,0,W,H);
     ctx.drawImage(im,x,y,w,h);
     if(phone){// мягкие края кадра на телефоне
@@ -186,7 +186,10 @@ if(!reduce&&(drive||rail)){
     if(drive){
       const p=prog(drive);
       want=Math.round(p*(N-1));draw();
-      const k=Math.min(2,Math.floor(p*3));
+      // сначала уходит заголовок первого экрана, потом по очереди три фразы
+      const ho=Math.max(0,1-p/.1);
+      drive.style.setProperty('--ho',ho.toFixed(3));drive.classList.toggle('gone',ho===0);
+      const k=p<.16?-1:Math.min(2,Math.floor((p-.16)/.84*3));
       words.forEach((w,i)=>w.classList.toggle('on',i===k));
     }
     if(rail&&rail.classList.contains('live'))track.style.setProperty('--tx',(-prog(rail)*dist).toFixed(1)+'px');

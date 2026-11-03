@@ -648,54 +648,43 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
   .round{transition:transform .16s cubic-bezier(.23,1,.32,1),box-shadow .25s ease,translate .3s cubic-bezier(.23,1,.32,1)}
 }
 
-/* первый экран: машина в студии и огромный заголовок */
-.hero-studio{background:radial-gradient(60% 60% at 72% 64%,#0A2D63 0%,var(--studio) 60%,#000A18 100%)}
-.hero-studio::before{opacity:.3}
-.studio{position:absolute;z-index:1;left:calc(max(16px,(100% - var(--wrap))/2) + min(100% - 32px,var(--wrap))*.46);bottom:-12vh;width:min(54vw,900px);pointer-events:none;animation:studioin 1.6s cubic-bezier(.23,1,.32,1) .15s both;
-  -webkit-mask:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent),linear-gradient(transparent,#000 22%,#000 72%,transparent);-webkit-mask-composite:source-in;
-  mask:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent),linear-gradient(transparent,#000 22%,#000 72%,transparent);mask-composite:intersect}
-.studio img{display:block;width:100%;height:auto}
-@keyframes studioin{from{opacity:0;transform:translateX(6vw)}to{opacity:1;transform:none}}
-.hero-studio .center{align-items:flex-start;text-align:left;justify-content:space-between;padding:6vh 0 8vh}
-.mega{margin-top:26px;max-width:none;font-size:clamp(56px,7vw,100px);line-height:.9;letter-spacing:-.06em;text-wrap:nowrap}
-.mega .lit{display:block}
-.mega small{display:block;margin-top:22px;font-size:clamp(20px,1.9vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.2;color:var(--soft)}
-.hero-foot{max-width:520px;margin-top:40px}
-.hero-foot .lead{margin-top:0;font-size:clamp(16px,1.25vw,19px)}
-.hero-foot .cta{justify-content:flex-start;margin-top:28px}
-@media (max-width:700px){
-  .hero-studio .center{display:contents}
-  .hero-studio .center>*{width:calc(100% - 32px);margin-left:auto;margin-right:auto}
-  .hero-studio .cap{order:1;margin-top:18px;font-size:11px}
-  .mega{order:2;margin-top:18px;font-size:clamp(40px,12.4vw,64px);text-wrap:balance}
-  .mega small{margin-top:14px;font-size:18px}
-  .studio{order:3;position:relative;left:auto;bottom:auto;width:150vw!important;max-width:none;margin:-14vw -25vw -18vw!important}
-  .hero-foot{order:4;margin-top:0;padding-bottom:calc(32px + env(safe-area-inset-bottom))}
-  .hero-foot .cta .pill{flex:1 1 100%}
-}
-
-/* сцена: автобус проезжает через экран при прокрутке */
-.drive{position:relative;background:var(--studio)}
-.drive-in{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5vh;padding:80px 0;background:var(--studio)}
-/* без скрипта: один кадр из видео */
-.drive-poster{display:block;width:calc(100% - 32px);max-width:var(--wrap);height:auto;border-radius:30px}
+/* первый экран = сцена проезда: видео у Москва-Сити, при прокрутке автобус едет кадр за кадром */
+.hero.drive{display:block;min-height:0;overflow:clip;background:var(--studio)}
+.hero.drive::before{display:none}
+.drive-in{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;overflow:hidden}
+.drive-poster,.drive-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%}
 .drive-film{display:none}
-.drive-words{list-style:none;display:grid;gap:18px;text-align:center;width:calc(100% - 32px)}
-.drive-words li{font-size:clamp(38px,6.4vw,112px);font-weight:600;letter-spacing:-.055em;line-height:.95}
-.drive-words .cap{display:flex;justify-content:center;margin-bottom:18px}
-/* со скриптом: блок закрепляется, автобус едет слева направо, фразы сменяются */
-.drive.live{height:300vh}
-.drive.live .drive-in{position:sticky;top:0;height:100vh;height:100svh;padding:0;display:block}
+/* затемнение неба под заголовком и дороги под кнопками */
+.drive-in::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(1,17,42,.92) 0%,rgba(1,17,42,.6) 24%,rgba(1,17,42,0) 40%,rgba(1,17,42,0) 64%,rgba(1,17,42,.78) 86%,var(--studio) 100%)}
+.drive .center{position:relative;z-index:3;flex:1;align-items:flex-start;text-align:left;justify-content:flex-start;padding:2vh 0 7vh}
+.drive .hero-foot{margin-top:auto}
+.mega{margin-top:18px;max-width:none;font-size:clamp(56px,7vw,112px);line-height:.92;letter-spacing:-.06em;text-wrap:nowrap}
+.mega small{display:block;margin-top:16px;font-size:clamp(18px,1.6vw,26px);font-weight:500;letter-spacing:-.02em;line-height:1.2;color:var(--soft)}
+.hero-foot{max-width:560px}
+.hero-foot .lead{margin-top:0;font-size:clamp(16px,1.2vw,18px);color:#DCE6F5}
+.hero-foot .cta{justify-content:flex-start;margin-top:0}
+.drive-words{display:none}
+/* со скриптом: блок закрепляется, заголовок уходит, автобус едет, фразы сменяются */
+.drive.live{height:340vh}
+.drive.live .drive-in{position:sticky;top:0;height:100vh;height:100svh}
 .drive.live .drive-poster{display:none}
-.drive.live .drive-film{display:block;position:absolute;inset:0;width:100%;height:100%}
-/* затемнение неба под фразами и плавный стык с соседними блоками */
-.drive.live .drive-in::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,var(--studio) 0%,rgba(1,17,42,.55) 22%,rgba(1,17,42,0) 46%,rgba(1,17,42,0) 82%,var(--studio) 100%)}
-.drive.live .drive-words{position:absolute;z-index:2;left:16px;right:16px;top:12vh;width:auto;display:block}
-.drive.live .drive-words li{position:absolute;left:0;right:0;opacity:0;transform:translateY(28px);transition:opacity .5s cubic-bezier(.23,1,.32,1),transform .5s cubic-bezier(.23,1,.32,1)}
-.drive.live .drive-words li.on{opacity:1;transform:none}
+.drive.live .drive-film{display:block}
+.drive.live .center{opacity:var(--ho,1);transform:translateY(calc((1 - var(--ho,1)) * -40px))}
+.drive.gone .center{pointer-events:none;visibility:hidden}
+.drive.live .drive-words{display:block;position:absolute;z-index:3;left:16px;right:16px;top:15vh;list-style:none;text-align:center}
+.drive-words li{position:absolute;left:0;right:0;font-size:clamp(38px,6vw,104px);font-weight:600;letter-spacing:-.055em;line-height:.95;opacity:0;transform:translateY(28px);transition:opacity .5s cubic-bezier(.23,1,.32,1),transform .5s cubic-bezier(.23,1,.32,1)}
+.drive-words li.on{opacity:1;transform:none}
+.drive-words .cap{display:flex;justify-content:center;margin-bottom:18px}
 @media (max-width:700px){
-  .drive.live{height:260vh}
+  .drive .center{padding:2vh 0 calc(28px + env(safe-area-inset-bottom))}
+  .mega{font-size:clamp(40px,12.4vw,64px);text-wrap:balance}
+  .mega .lit{display:block}
+  .mega small{font-size:18px;margin-top:12px}
+  .hero-foot{width:100%}
+  .hero-foot .cta{margin-top:0}
+  .hero-foot .cta .pill{flex:1 1 100%}
+  .drive.live{height:300vh}
   .drive.live .drive-words{top:18svh}
 }
 
@@ -761,4 +750,4 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
 @keyframes flip{0%{transform:rotateX(0)}45%{transform:rotateX(-88deg);opacity:.4}100%{transform:rotateX(0)}}
 .big small{margin-left:8px}
 
-@media (prefers-reduced-motion:reduce){.studio{animation:none}.big .d.flip{animation:none}}
+@media (prefers-reduced-motion:reduce){.big .d.flip{animation:none}}
