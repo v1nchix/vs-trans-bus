@@ -89,9 +89,10 @@ h1, h2, h3, p { margin: 0; }
 .hero__title { font-size: clamp(26px, 2.3vw, 36px); font-weight: 600; line-height: 1.15; letter-spacing: -.02em; }
 .hero__lead { margin-top: 18px; max-width: 380px; color: var(--muted); font-size: 16px; }
 .hero__btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-.hero__visual { position: relative; z-index: 2; }
-/* смешивание стоит на обёртке: у неё своя анимация, и смешивать внутри неё не с чем */
-.hero__bus { position: relative; mix-blend-mode: multiply; }
+/* без z-index: иначе обёртка отрезает автобус от фона и белое не растворяется */
+.hero__visual { position: relative; }
+/* смешивание стоит на самом автобусе: у него своя анимация, и смешивать внутри неё не с чем */
+.hero__bus { position: relative; z-index: 2; mix-blend-mode: multiply; }
 .hero__bus img {
   width: 100%;
   -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 98%);
