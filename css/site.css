@@ -574,9 +574,57 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opa
 .sec.tight{padding:90px 0 110px}
 @media (max-width:700px){.sec{padding:80px 0 92px}.sec.tight{padding:60px 0 72px}}
 
+/* ===== первый экран: карта маршрутов ===== */
+.hero-map::before{display:none}
+.hero-map{background:radial-gradient(80% 90% at 70% 45%,#0A1C36 0%,var(--night) 70%)}
+.map{position:absolute;inset:0 0 0 30%;z-index:1;pointer-events:none;animation:mapin 1.4s cubic-bezier(.23,1,.32,1) both;
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 22%,#000 92%,transparent 100%);mask:linear-gradient(90deg,transparent 0,#000 22%,#000 92%,transparent 100%)}
+.map svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.hero-map::after{content:"";position:absolute;left:0;right:0;bottom:0;height:190px;z-index:2;pointer-events:none;background:linear-gradient(transparent,var(--night) 85%)}
+@keyframes mapin{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+
+.map .grid{fill:rgba(156,194,255,.55)}
+.map .roads path{fill:none;stroke:rgba(156,194,255,.13);stroke-width:.28}
+.map .river{fill:none;stroke:rgba(28,125,255,.28);stroke-width:.7;stroke-linecap:round}
+.map .ckad{fill:none;stroke:rgba(156,194,255,.12);stroke-width:.3;stroke-dasharray:1.2 1.2}
+.map .mkad{fill:rgba(28,125,255,.05);stroke:rgba(156,194,255,.4);stroke-width:.45}
+.map .ring1{fill:none;stroke:rgba(156,194,255,.35);stroke-width:.3}
+.map .ring2{fill:none;stroke:rgba(156,194,255,.18);stroke-width:.3}
+.map .city{fill:rgba(201,212,228,.55);font-size:1.9px;letter-spacing:.35em;text-anchor:middle;font-weight:600}
+.map .rts path{fill:none;stroke:#5E9BFF;stroke-width:.55;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;
+  animation:draw 1.8s cubic-bezier(.65,0,.35,1) forwards;animation-delay:calc(.7s + var(--i) * .18s)}
+.map .rts.glow path{stroke:rgba(94,155,255,.22);stroke-width:2.2}
+@keyframes draw{to{stroke-dashoffset:0}}
+.map .o{fill:#9CC2FF}
+.map .pin{opacity:0;animation:pinin .6s cubic-bezier(.23,1,.32,1) forwards;animation-delay:calc(2.2s + var(--i) * .18s)}
+.map .pin circle{fill:#E9F1FF}
+.map .pin .ring{fill:rgba(28,125,255,.18);stroke:rgba(156,194,255,.6);stroke-width:.25}
+.map .pin text{fill:#DCE6F5;font-size:2.3px;font-weight:500;letter-spacing:.01em}
+@keyframes pinin{from{opacity:0}to{opacity:1}}
+.map .bus circle{fill:#fff}
+.map .bus .halo{fill:rgba(94,155,255,.35)}
+.map .bus{opacity:0}
+
+/* текст слева, карта справа */
+.hero-map .center{align-items:flex-start;text-align:left;padding:4vh 0 220px}
+.hero-map h1{max-width:11ch;font-size:clamp(42px,5.2vw,80px)}
+.hero-map .lead{max-width:30em}
+.hero-map .cta{justify-content:flex-start}
+@media (max-width:900px){
+  .map{inset:0 -30% 0 10%;opacity:.7}
+}
+@media (max-width:600px){
+  .map{inset:2% -30% 50% -10%;opacity:.42;-webkit-mask:linear-gradient(#000 50%,transparent 95%);mask:linear-gradient(#000 50%,transparent 95%)}
+  .map .pin text,.map .city{display:none}
+  .hero-map .center{padding:5vh 0 250px}
+  .hero-map h1{max-width:none}
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important}
   .horizon::after{display:none}
   .js .reveal,.js .svc,.js .head{transform:none!important;transition:opacity .3s ease!important;transition-delay:0s!important}
   .svc img,.car figure img,.post figure img{transition:none!important}
 }
+
+@media (prefers-reduced-motion:reduce){.map .buses{display:none}.map .rts path{stroke-dashoffset:0;animation:none}.map .pin{opacity:1;animation:none}}
