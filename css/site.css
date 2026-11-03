@@ -50,6 +50,10 @@ h1, h2, h3, p { margin: 0; }
 .btn--ghost { border: 1.5px solid rgba(255, 255, 255, .45); color: #fff; padding-right: 26px; }
 .btn--ghost .btn__arrow { background-color: transparent; filter: invert(1); margin-right: -18px; }
 .btn--soft { background: var(--soft); color: var(--ink); }
+.btn--white { background: #fff; color: var(--ink); }
+.btn--white .btn__arrow {
+  background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M5 11 11 5M6 5h5v5'/%3E%3C/svg%3E") center/15px no-repeat;
+}
 .btn--sm { height: 46px; padding-left: 22px; font-size: 14px; }
 .btn--sm .btn__arrow { width: 32px; height: 32px; }
 
@@ -256,6 +260,7 @@ h1, h2, h3, p { margin: 0; }
   .btn--dark:hover { background: var(--navy); }
   .btn--line:hover, .btn--ghost:hover { border-color: currentColor; }
   .btn--soft:hover { background: #DCE5F4; }
+  .btn--white:hover { background: var(--soft); }
   .btn:hover .btn__arrow, .link:hover .link__arrow { transform: rotate(45deg); }
   .top__nav a:hover { background: var(--ink); color: #fff; }
   .card:hover { background: #E5E0D7; }
