@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Варианты первого экрана — ВС ТРАНС БУС</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  .var-label { position: sticky; top: 0; z-index: 20; margin: 0 calc(var(--pad) * -1); padding: 12px var(--pad); background: var(--ink); color: #fff; font-size: 15px; font-weight: 600; }
+  .var-label span { color: rgba(255,255,255,.65); font-weight: 400; }
+  .demo { padding: 24px 0 64px; border-bottom: 1px dashed var(--line); }
+  .demo .hero__name, .demo .hero__text, .demo .hero__bus { animation: none !important; }
+
+  /* вырезанный автобус: без смешивания, своя тень */
+  .bus-cut img { mix-blend-mode: normal; -webkit-mask-image: none; mask-image: none; }
+  .bus-cut { mix-blend-mode: normal; }
+
+  /* 1. автобус перед названием */
+  .v1 .hero__body { margin-top: -5.2vw; grid-template-columns: minmax(300px, 3.8fr) 8.2fr; }
+  .v1 .hero__bus { z-index: 2; }
+  .v1 .hero__bus img { width: 104%; max-width: none; filter: drop-shadow(0 30px 30px rgba(11,27,54,.18)); }
+  .v1 .hero__text { padding-top: 7vw; }
+
+  /* 2. автобус стоит на полу */
+  .floor { position: relative; }
+  .floor::before { /* мягкая тень под колёсами */
+    content: ""; position: absolute; left: 4%; right: 2%; bottom: 1.5%; height: 9%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(11,27,54,.42), rgba(11,27,54,.12) 55%, transparent 72%);
+    filter: blur(6px); z-index: -1;
+  }
+  .floor::after { /* лёгкий блик пола */
+    content: ""; position: absolute; left: 10%; right: 6%; bottom: -6%; height: 12%;
+    background: radial-gradient(50% 50% at 50% 0%, rgba(255,255,255,.75), transparent 70%); z-index: -2;
+  }
+  .floor img { position: relative; }
+
+  /* 3. движение при прокрутке */
+  .v3 .hero__name, .v3 .hero__bus, .v7 .hero__name, .v7 .hero__bus { will-change: transform; }
+
+  /* 4. цифры под кнопками */
+  .facts { display: flex; flex-wrap: wrap; gap: 0; margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .facts div { padding-right: 22px; margin-right: 22px; border-right: 1px solid var(--line); }
+  .facts div:last-child { border: 0; margin: 0; padding: 0; }
+  .facts b { display: block; font-size: 28px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+  .facts span { font-size: 13px; color: var(--muted); }
+
+  /* 5. клиенты */
+  .clients { margin-top: 34px; }
+  .clients p { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .clients div { display: flex; gap: 12px; flex-wrap: wrap; }
+  .chip { height: 48px; padding: 0 20px; border-radius: 14px; background: #fff; display: inline-flex; align-items: center; font-weight: 800; font-size: 19px; letter-spacing: -.01em; box-shadow: 0 1px 2px rgba(11,27,54,.06); }
+  .chip--wb { background: linear-gradient(120deg, #8D1AC9, #D8197E); color: #fff; }
+  .chip--oz { background: #005BFF; color: #fff; font-size: 21px; letter-spacing: .02em; }
+
+  /* 6. бегущая лента */
+  .ticker { margin: 28px calc(var(--pad) * -1) 0; overflow: hidden; border-block: 1px solid var(--line); padding: 16px 0; }
+  .ticker__row { display: flex; gap: 0; width: max-content; animation: run 38s linear infinite; }
+  .ticker span { font-size: 22px; font-weight: 600; letter-spacing: -.01em; padding: 0 28px; white-space: nowrap; display: inline-flex; align-items: center; gap: 28px; }
+  .ticker span::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--navy); opacity: .35; }
+  @keyframes run { to { transform: translateX(-50%); } }
+
+  @media (max-width: 900px) {
+    .v1 .hero__body { margin-top: -4vw; grid-template-columns: 1fr; }
+    .v1 .hero__text { padding-top: 0; }
+    .v1 .hero__bus img { width: 112%; margin-left: -6%; }
+  }
+  @media (max-width: 640px) {
+    .facts b { font-size: 22px; }
+    .facts div { padding-right: 14px; margin-right: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<template id="hero">
+  <section class="hero">
+    <h1 class="hero__name">вс транс бус</h1>
+    <div class="hero__body">
+      <div class="hero__text">
+        <h2 class="hero__title">Перевозка сотрудников<br>для бизнеса</h2>
+        <p class="hero__lead">Возим смены на склады, заводы и в офисы Москвы и области. Свои автобусы, свои водители, свой ремонтный ангар.</p>
+        <div class="hero__btns">
+          <a class="btn btn--dark" href="#">Рассчитать поездку <span class="btn__arrow" aria-hidden="true"></span></a>
+          <a class="btn btn--line" href="#">Все услуги <span class="btn__arrow" aria-hidden="true"></span></a>
+        </div>
+      </div>
+      <div class="hero__bus"><img src="img/hero-bus.webp" alt="" width="1536" height="1024"></div>
+    </div>
+  </section>
+</template>
+
+<div class="demo v0"><p class="var-label">Сейчас <span>для сравнения</span></p></div>
+<div class="demo v1 cut"><p class="var-label">1. <span>Автобус перед названием, заезжает на слово «бус»</span></p></div>
+<div class="demo v2 cut floor-on"><p class="var-label">2. <span>Автобус стоит на полу: мягкая тень и блик под колёсами</span></p></div>
+<div class="demo v3"><p class="var-label">3. <span>Движение при прокрутке: название уходит вверх медленнее, автобус трогается влево (полистай этот блок)</span></p></div>
+<div class="demo v4"><p class="var-label">4. <span>Цифры под кнопками</span></p></div>
+<div class="demo v5"><p class="var-label">5. <span>Клиенты: Wildberries и Ozon (без договора, риск)</span></p></div>
+<div class="demo v6"><p class="var-label">6. <span>Бегущая лента направлений (города для примера)</span></p></div>
+<div class="demo v7 cut floor-on"><p class="var-label">Мой выбор: 1 + 2 + 3 <span>вместе</span></p></div>
+<div style="height:60vh"></div>
+
+</div>
+<script>
+const tpl = document.getElementById('hero');
+document.querySelectorAll('.demo').forEach((d) => {
+  const h = tpl.content.cloneNode(true);
+  const bus = h.querySelector('.hero__bus');
+  const text = h.querySelector('.hero__text');
+  if (d.classList.contains('cut')) {
+    bus.classList.add('bus-cut');
+    bus.querySelector('img').src = 'img/hero-bus-cut.webp';
+  }
+  if (d.classList.contains('floor-on')) bus.classList.add('floor');
+  if (d.classList.contains('v7')) d.classList.add('v1');
+  if (d.classList.contains('v4')) text.insertAdjacentHTML('beforeend',
+    '<div class="facts"><div><b>30+</b><span>машин</span></div><div><b>45+</b><span>водителей</span></div><div><b>5000+</b><span>пассажиров в день</span></div></div>');
+  if (d.classList.contains('v5')) text.insertAdjacentHTML('beforeend',
+    '<div class="clients"><p>Возим сотрудников складов</p><div><span class="chip chip--wb">wildberries</span><span class="chip chip--oz">OZON</span></div></div>');
+  d.appendChild(h);
+  if (d.classList.contains('v6')) {
+    const cities = ['Подольск', 'Коледино', 'Домодедово', 'Чехов', 'Электроугли', 'Белая Дача', 'Шушары', 'Химки', 'Лобня'];
+    const row = cities.map((c) => `<span>${c}</span>`).join('');
+    d.insertAdjacentHTML('beforeend', `<div class="ticker"><div class="ticker__row">${row}${row}</div></div>`);
+  }
+});
+
+// название по ширине колонки
+function fit() {
+  document.querySelectorAll('.hero__name').forEach((n) => {
+    n.style.fontSize = '';
+    const r = document.createRange(); r.selectNodeContents(n);
+    const cs = getComputedStyle(n), fs = parseFloat(cs.fontSize);
+    const tail = Math.max(0, -parseFloat(cs.letterSpacing) || 0);
+    n.style.fontSize = (fs * n.parentElement.clientWidth / (r.getBoundingClientRect().width + tail)).toFixed(2) + 'px';
+  });
+}
+document.fonts.ready.then(fit);
+addEventListener('resize', fit);
+
+// 3: при прокрутке название уходит медленнее, автобус трогается влево
+const moving = document.querySelectorAll('.v3, .v7');
+function onScroll() {
+  moving.forEach((d) => {
+    const hero = d.querySelector('.hero');
+    const top = hero.getBoundingClientRect().top;
+    const p = Math.min(Math.max(-top / innerHeight, 0), 1);
+    hero.querySelector('.hero__name').style.transform = `translateY(${p * 90}px)`;
+    hero.querySelector('.hero__bus').style.transform = `translateX(${-p * 14}%)`;
+  });
+}
+addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+</body>
+</html>
