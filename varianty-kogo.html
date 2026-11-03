@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Варианты «Кого возим» — ВС ТРАНС БУС</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<style>
+  .var-label { margin: 64px 0 0; padding-bottom: 10px; border-bottom: 1px dashed var(--line); font-size: 15px; font-weight: 600; }
+  .var-label span { color: var(--muted); font-weight: 400; }
+  .block { padding-top: 32px; }
+  .mul { mix-blend-mode: multiply; display: block; width: 100%; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .tags span { height: 30px; padding: 0 12px; border-radius: 999px; background: #fff; display: inline-flex; align-items: center; font-size: 13px; font-weight: 500; }
+
+  /* A. при наведении карточка раскрывает подробности */
+  .a .card { min-height: 460px; }
+  .a .more { position: absolute; inset: auto 0 0 0; padding: 22px 28px 26px; background: var(--ink); color: #fff; transform: translateY(101%); transition: transform .5s var(--ease); z-index: 2; }
+  .a .more li { margin: 6px 0; font-size: 15px; list-style: none; padding-left: 20px; position: relative; }
+  .a .more li::before { content: ""; position: absolute; left: 0; top: .55em; width: 8px; height: 8px; border-radius: 50%; background: var(--soft); }
+  .a .more ul { margin: 0; padding: 0; }
+  .a .card:hover .more, .a .card:focus-within .more { transform: none; }
+
+  /* B. бенто: склады крупно, заводы и офисы рядом */
+  .bento { display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: 1fr 1fr; gap: 18px; }
+  .bento .card:first-child { grid-row: span 2; }
+  .bento .card:first-child .card__title { font-size: 30px; }
+  .bento .card:not(:first-child) { flex-direction: row; align-items: center; padding: 26px 0 26px 28px; gap: 10px; }
+  .bento .card:not(:first-child) > div { flex: 1 1 45%; }
+  .bento .card:not(:first-child) .card__img { width: 58%; margin: 0; flex: none; }
+
+  /* C. вкладки слева, большая картинка справа */
+  .tabsview { display: grid; grid-template-columns: 1fr 1.5fr; gap: 18px; }
+  .tv-list { display: flex; flex-direction: column; gap: 10px; }
+  .tv-item { text-align: left; border: 0; cursor: pointer; font: inherit; color: inherit; border-radius: var(--r-lg); padding: 22px 26px; background: var(--card); transition: background-color .3s var(--ease), color .3s var(--ease); }
+  .tv-item h3 { font-size: 22px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+  .tv-item h3::after { content: "→"; opacity: .4; }
+  .tv-item p { margin-top: 6px; font-size: 15px; color: var(--muted); display: none; }
+  .tv-item.on { background: var(--ink); color: #fff; }
+  .tv-item.on p { display: block; color: rgba(255,255,255,.7); }
+  .tv-item.on h3::after { opacity: 1; }
+  .tv-pic { background: var(--card); border-radius: var(--r-xl); display: grid; place-items: end center; overflow: hidden; min-height: 420px; }
+  .tv-pic img { transition: opacity .35s var(--ease); }
+
+  /* D. номера и тёмная подпись снизу */
+  .numcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .nc { border-radius: var(--r-lg); overflow: hidden; background: var(--card); display: flex; flex-direction: column; }
+  .nc-pic { position: relative; }
+  .nc-pic b { position: absolute; left: 22px; top: 18px; font-size: 64px; font-weight: 800; letter-spacing: -.04em; color: rgba(11,27,54,.12); line-height: 1; }
+  .nc-foot { background: var(--ink); color: #fff; padding: 22px 24px 24px; flex: 1; }
+  .nc-foot h3 { font-size: 21px; font-weight: 600; }
+  .nc-foot p { margin-top: 6px; font-size: 14.5px; color: rgba(255,255,255,.7); }
+
+  /* E. широкие строки, картинка и текст чередуются */
+  .rows { display: flex; flex-direction: column; gap: 18px; }
+  .row { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 30px; background: var(--card); border-radius: var(--r-xl); padding: 10px 48px 10px 10px; }
+  .row:nth-child(even) { grid-template-columns: 1fr 1.1fr; padding: 10px 10px 10px 48px; }
+  .row:nth-child(even) .row-pic { order: 2; }
+  .row h3 { font-size: 30px; font-weight: 600; letter-spacing: -.02em; }
+  .row p { margin-top: 10px; color: var(--muted); max-width: 420px; }
+  .row .btn { margin-top: 22px; }
+
+  /* F. карточки с ярлыками */
+  .f .card__text { margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    .bento, .tabsview, .numcards, .row, .row:nth-child(even) { grid-template-columns: 1fr; }
+    .bento .card:first-child { grid-row: auto; }
+    .bento .card:not(:first-child) { flex-direction: column; align-items: stretch; padding: 24px 22px 0; }
+    .bento .card:not(:first-child) .card__img { width: calc(100% + 44px); margin: auto -22px 0; }
+    .row, .row:nth-child(even) { padding: 10px 10px 28px; }
+    .row:nth-child(even) .row-pic { order: 0; }
+    .row > div:not(.row-pic) { padding: 0 16px; }
+    .tv-pic { min-height: 260px; }
+    .a .more { position: static; transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <p class="var-label" style="margin-top:28px">Сейчас <span>для сравнения</span></p>
+  <section class="block">
+    <div class="block__head"><div><p class="eyebrow">что мы делаем</p><h2 class="block__title">Кого возим</h2></div><a class="link" href="#">Обсудить маршрут <span class="link__arrow"></span></a></div>
+    <div class="cards" data-cards></div>
+  </section>
+
+  <p class="var-label">A. <span>Как сейчас, но при наведении снизу выезжает тёмная плашка с подробностями (на телефоне видна сразу)</span></p>
+  <section class="block a">
+    <div class="block__head"><div><p class="eyebrow">что мы делаем</p><h2 class="block__title">Кого возим</h2></div></div>
+    <div class="cards" data-cards="more"></div>
+  </section>
+
+  <p class="var-label">B. <span>Бенто: склады крупно (это основное), заводы и офисы рядом поменьше</span></p>
+  <section class="block">
+    <div class="block__head"><div><p class="eyebrow">что мы делаем</p><h2 class="block__title">Кого возим</h2></div></div>
+    <div class="bento" data-cards="bento"></div>
+  </section>
+
+  <p class="var-label">C. <span>Вкладки слева, большая картинка справа меняется (нажимай на вкладки)</span></p>
+  <section class="block">
+    <div class="block__head"><div><p class="eyebrow">что мы делаем</p><h2 class="block__title">Кого возим</h2></div></div>
+    <div class="tabsview">
+      <div class="tv-list" id="tv"></div>
+      <div class="tv-pic"><img class="mul" id="tvimg" src="img/sklad.webp" alt=""></div>
+    </div>
+  </section>
+
+  <p class="var-label">D. <span>Крупные номера 01, 02, 03 и тёмная подпись под картинкой</span></p>
+  <section class="block">
+    <div class="block__head"><div><p class="eyebrow">что мы делаем</p><h2 class="block__title">Кого возим</h2></div></div>
+    <div class="numcards" id="nc"></div>
+  </section>
+
+  <p class="var-label">E. <span>Широкие строки на всю ширину: картинка и текст чередуются слева и справа</span></p>
+  <section class="block">
+    <div class="block__head"><div><p class="eyebrow">что мы делаем</p><h2 class="block__title">Кого возим</h2></div></div>
+    <div class="rows" id="rows"></div>
+  </section>
+
+  <p class="var-label">F. <span>Как сейчас, плюс белые ярлыки: дневные и ночные смены, от метро и т.п.</span></p>
+  <section class="block f">
+    <div class="block__head"><div><p class="eyebrow">что мы делаем</p><h2 class="block__title">Кого возим</h2></div></div>
+    <div class="cards" data-cards="tags"></div>
+  </section>
+  <div style="height:80px"></div>
+</div>
+<script>
+const items = [
+  { t: 'Склады', img: 'sklad', d: 'Сотрудники складов и распределительных центров. Дневные и ночные смены.', more: ['Дневные и ночные смены', 'Сбор у метро и по районам', 'Большие автобусы на крупные смены'], tags: ['дневные смены', 'ночные смены', 'большие автобусы'] },
+  { t: 'Заводы', img: 'zavod', d: 'Рабочие смены на производство по графику предприятия.', more: ['Под график предприятия', 'Несколько смен в сутки', 'Постоянные маршруты'], tags: ['по графику завода', 'постоянные маршруты'] },
+  { t: 'Офисы', img: 'ofis', d: 'Сотрудники офисов и бизнес-центров. Маршрут от метро или от дома.', more: ['От метро или от дома', 'Микроавтобусы на небольшие группы', 'Утро и вечер'], tags: ['от метро', 'микроавтобусы'] },
+];
+const card = (it, mode) => `
+  <a class="card" href="#">
+    <div><h3 class="card__title">${it.t}</h3><p class="card__text">${it.d}</p>
+    ${mode === 'tags' ? `<div class="tags">${it.tags.map((x) => `<span>${x}</span>`).join('')}</div>` : ''}</div>
+    <img class="card__img" src="img/${it.img}.webp" alt="">
+    ${mode === 'more' ? `<div class="more"><ul>${it.more.map((x) => `<li>${x}</li>`).join('')}</ul></div>` : '<span class="card__go"></span>'}
+  </a>`;
+document.querySelectorAll('[data-cards]').forEach((el) => { el.innerHTML = items.map((it) => card(it, el.dataset.cards)).join(''); });
+
+const tv = document.getElementById('tv'), tvimg = document.getElementById('tvimg');
+tv.innerHTML = items.map((it, i) => `<button class="tv-item${i ? '' : ' on'}" type="button"><h3>${it.t}</h3><p>${it.d}</p></button>`).join('');
+tv.querySelectorAll('.tv-item').forEach((b, i) => b.addEventListener('click', () => {
+  tv.querySelectorAll('.tv-item').forEach((x) => x.classList.toggle('on', x === b));
+  tvimg.style.opacity = 0;
+  setTimeout(() => { tvimg.src = `img/${items[i].img}.webp`; tvimg.style.opacity = 1; }, 200);
+}));
+
+document.getElementById('nc').innerHTML = items.map((it, i) => `<div class="nc"><div class="nc-pic"><b>0${i + 1}</b><img class="mul" src="img/${it.img}.webp" alt=""></div><div class="nc-foot"><h3>${it.t}</h3><p>${it.d}</p></div></div>`).join('');
+document.getElementById('rows').innerHTML = items.map((it) => `<div class="row"><div class="row-pic"><img class="mul" src="img/${it.img}.webp" alt=""></div><div><h3>${it.t}</h3><p>${it.d}</p><a class="btn btn--dark" href="#">Рассчитать поездку <span class="btn__arrow"></span></a></div></div>`).join('');
+</script>
+</body>
+</html>
