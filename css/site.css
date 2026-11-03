@@ -157,6 +157,14 @@ h1, h2, h3, p { margin: 0; }
   transition: transform .35s var(--ease), background-color .25s var(--ease);
 }
 
+/* «Кого возим»: склады крупно слева, заводы и офисы справа одна над другой */
+.bento { display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: 1fr 1fr; gap: 18px; }
+.bento .card:first-child { grid-row: span 2; }
+.bento .card:first-child .card__title { font-size: 30px; }
+.bento .card:not(:first-child) { flex-direction: row; align-items: center; gap: 10px; padding: 26px 0 26px 28px; }
+.bento .card:not(:first-child) .card__body { flex: 1 1 45%; align-self: flex-start; }
+.bento .card:not(:first-child) .card__img { width: 58%; flex: none; margin: 0; padding: 0; }
+
 /* клиенты: тёмная плашка и белые плитки */
 .trust {
   display: grid; grid-template-columns: 1fr 1.25fr; gap: 40px; align-items: center;
@@ -273,8 +281,8 @@ h1, h2, h3, p { margin: 0; }
 /* появление при прокрутке: только когда есть JS */
 .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .js .reveal.is-in { opacity: 1; transform: none; }
-.js .cards .reveal:nth-child(2), .js .steps .reveal:nth-child(2) { transition-delay: .08s; }
-.js .cards .reveal:nth-child(3), .js .steps .reveal:nth-child(3) { transition-delay: .16s; }
+.js .cards .reveal:nth-child(2), .js .bento .reveal:nth-child(2), .js .steps .reveal:nth-child(2) { transition-delay: .08s; }
+.js .cards .reveal:nth-child(3), .js .bento .reveal:nth-child(3), .js .steps .reveal:nth-child(3) { transition-delay: .16s; }
 .js .steps .reveal:nth-child(4) { transition-delay: .24s; }
 /* первый экран выезжает сразу */
 .js .hero__name, .js .hero__text, .js .hero__bus { animation: rise .9s var(--ease) both; }
@@ -335,6 +343,11 @@ h1, h2, h3, p { margin: 0; }
   .about__nums span { font-size: 12px; margin-top: 6px; }
   .about { grid-template-columns: 1fr; gap: 22px; margin: 32px 0 0; padding: 28px 22px; border-radius: var(--r-lg); }
   .cards { grid-template-columns: 1fr; gap: 14px; }
+  .bento { grid-template-columns: 1fr; grid-template-rows: none; gap: 14px; }
+  .bento .card:first-child { grid-row: auto; }
+  .bento .card:first-child .card__title { font-size: 22px; }
+  .bento .card:not(:first-child) { flex-direction: column; align-items: stretch; padding: 24px 22px 0; }
+  .bento .card:not(:first-child) .card__img { width: calc(100% + 44px); margin: auto -22px 0; padding-top: 8px; }
   .card { padding: 24px 22px 0; }
   .card__img { width: calc(100% + 44px); margin: auto -22px 0; }
   .steps { grid-template-columns: 1fr; gap: 12px; }
