@@ -26,6 +26,24 @@ const io = new IntersectionObserver((entries) => {
 }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
+// цифры в «о компании» набегают от нуля, когда блок показался
+const nums = document.querySelector('.about__nums');
+if (nums && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const countIo = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    countIo.disconnect();
+    nums.querySelectorAll('[data-n]').forEach((b) => {
+      const n = +b.dataset.n, t0 = performance.now();
+      (function step(t) {
+        const p = Math.min((t - t0) / 1400, 1);
+        b.textContent = Math.round(n * (1 - Math.pow(1 - p, 3))) + '+';
+        if (p < 1) requestAnimationFrame(step);
+      })(t0);
+    });
+  }), { threshold: .4 });
+  countIo.observe(nums);
+}
+
 // вкладки «Как работаем» подсвечивают свою карточку
 const tabs = document.querySelectorAll('.tab');
 const steps = document.querySelectorAll('.step');
