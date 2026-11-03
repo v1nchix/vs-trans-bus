@@ -94,13 +94,6 @@ h1, h2, h3, p { margin: 0; }
   mask-image: linear-gradient(to bottom, #000 82%, transparent 98%);
 }
 
-/* клиенты под кнопками */
-.clients { margin-top: 34px; }
-.clients p { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-.clients div { display: flex; gap: 12px; flex-wrap: wrap; }
-.chip { height: 48px; padding: 0 20px; border-radius: 14px; display: inline-flex; align-items: center; font-weight: 800; font-size: 19px; letter-spacing: -.01em; color: #fff; }
-.chip--wb { background: linear-gradient(120deg, #8D1AC9, #D8197E); }
-.chip--oz { background: #005BFF; font-size: 21px; letter-spacing: .02em; }
 
 /* бегущая лента направлений */
 .ticker { margin: 20px calc(var(--pad) * -1) 0; overflow: hidden; border-block: 1px solid var(--line); padding: 16px 0; }
@@ -150,6 +143,18 @@ h1, h2, h3, p { margin: 0; }
   box-shadow: 0 2px 10px rgba(11, 27, 54, .08);
   transition: transform .35s var(--ease), background-color .25s var(--ease);
 }
+
+/* клиенты: тёмная плашка и белые плитки */
+.trust {
+  display: grid; grid-template-columns: 1fr 1.25fr; gap: 40px; align-items: center;
+  background: var(--ink); color: #fff; border-radius: var(--r-xl); padding: 48px;
+}
+.trust__title { font-size: clamp(30px, 3vw, 44px); font-weight: 600; line-height: 1.1; letter-spacing: -.025em; }
+.trust__text { margin-top: 16px; color: rgba(255, 255, 255, .7); max-width: 380px; }
+.trust__tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.trust__tile { background: #fff; border-radius: var(--r-lg); height: 190px; display: grid; place-items: center; font-size: clamp(32px, 3.6vw, 54px); font-weight: 900; }
+.trust__wb { letter-spacing: -.035em; background: linear-gradient(120deg, #8D1AC9, #D8197E); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.trust__oz { letter-spacing: .01em; color: #005BFF; }
 
 /* как работаем */
 .tabs { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -302,9 +307,9 @@ h1, h2, h3, p { margin: 0; }
   .btn--sm .btn__arrow { width: 28px; height: 28px; background-size: 13px; }
   .hero__name { font-size: 15.9vw; }
   .hero__btns .btn { flex: 1 1 auto; justify-content: space-between; }
-  .clients { margin-top: 26px; }
-  .chip { height: 42px; padding: 0 16px; font-size: 17px; }
-  .chip--oz { font-size: 18px; }
+  .trust { grid-template-columns: 1fr; padding: 28px 22px; gap: 24px; border-radius: var(--r-lg); }
+  .trust__tiles { grid-template-columns: 1fr; }
+  .trust__tile { height: 120px; }
   .ticker span { font-size: 18px; padding: 0 20px; gap: 40px; }
   .ticker span::after { margin-right: -20px; }
   .about { grid-template-columns: 1fr; gap: 18px; margin: 32px 0 0; padding: 28px 22px; border-radius: var(--r-lg); }
