@@ -54,7 +54,51 @@
   .e span { font-size: 64px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; padding-right: 36px; white-space: nowrap; }
   .e .row--back span { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
 
+  /* F. дорога с разметкой, города на синих указателях */
+  .f { background: linear-gradient(#3b3f46, #2c3036); padding: 16px 0; position: relative; }
+  .f::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 4px; margin-top: -2px; background: repeating-linear-gradient(90deg, #f2f2f2 0 46px, transparent 46px 86px); opacity: .85; animation: road 1.2s linear infinite; }
+  @keyframes road { to { background-position: -86px 0; } }
+  .f .row { position: relative; gap: 120px; padding-left: 60px; }
+  .f span { display: inline-flex; align-items: center; gap: 12px; padding: 10px 18px; border-radius: 8px; background: #1F56B5; color: #fff; font-weight: 700; font-size: 18px; white-space: nowrap; box-shadow: inset 0 0 0 2px #fff, 0 6px 14px rgba(0,0,0,.35); }
+  .f span::after { content: "→"; font-weight: 800; }
+
+  /* G. табло с перелистыванием */
+  .g { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 18px 16px; flex-wrap: wrap; }
+  .g p { font-size: 14px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin: 0; }
+  .flap { display: flex; gap: 4px; }
+  .flap b { position: relative; width: 34px; height: 50px; border-radius: 6px; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 28px; font-weight: 700; overflow: hidden; }
+  .flap b::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(0,0,0,.6); }
+  .flap b.flip { animation: flip .35s ease-in-out; }
+  @keyframes flip { 50% { transform: scaleY(.1); } }
+  .g .time { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  /* H. белые пилюли */
+  .h { padding: 6px 0; }
+  .h .row { gap: 12px; }
+  .h span { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 24px; border-radius: 999px; background: #fff; font-size: 17px; font-weight: 600; white-space: nowrap; box-shadow: 0 1px 2px rgba(11,27,54,.06); }
+  .h span::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #34b46a; }
+
+  /* I. автобус едет вдоль остановок */
+  .i { position: relative; height: 112px; margin-inline: 0; }
+  .i .line { position: absolute; left: 4%; right: 4%; top: 48px; height: 3px; background: repeating-linear-gradient(90deg, var(--navy) 0 14px, transparent 14px 22px); opacity: .3; }
+  .i .stops { position: absolute; left: 4%; right: 4%; top: 38px; display: flex; justify-content: space-between; }
+  .i .stops span { display: flex; flex-direction: column; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; width: 0; white-space: nowrap; color: var(--muted); transition: color .3s; }
+  .i .stops span::before { content: ""; width: 18px; height: 18px; border-radius: 50%; border: 4px solid var(--navy); background: var(--bg); transition: background-color .3s, box-shadow .3s; }
+  .i .stops span.on { color: var(--ink); }
+  .i .stops span.on::before { background: var(--navy); box-shadow: 0 0 0 7px rgba(14,38,77,.14); }
+  .i .ibus { position: absolute; top: 4px; left: 4%; width: 46px; height: 24px; margin-left: -23px; color: var(--navy); animation: drive 16s linear infinite; }
+  @keyframes drive { from { left: 4%; } to { left: 96%; } }
+
+  /* J. цифры вперемешку с городами */
+  .j { padding: 14px 0; border-block: 1px solid var(--line); }
+  .j span { display: inline-flex; align-items: baseline; gap: 10px; padding: 0 36px; font-size: 20px; font-weight: 600; white-space: nowrap; }
+  .j span.num { color: var(--navy); }
+  .j span.num b { font-size: 34px; font-weight: 800; letter-spacing: -.02em; }
+  .j span.num em { font-style: normal; font-size: 14px; color: var(--muted); font-weight: 500; }
+
   @media (max-width: 640px) {
+    .i .stops span:nth-child(even) { visibility: hidden; }
+    .flap b { width: 24px; height: 38px; font-size: 20px; }
     .e span { font-size: 40px; }
     .a span, .c span { font-size: 16px; }
     .d span { width: 150px; font-size: 14px; }
@@ -91,6 +135,34 @@
   <div class="ctx"></div>
   <div class="bleed e"><div class="row" data-k="e"></div><div class="row row--back" data-k="e2"></div></div>
   <div class="mini-about">Довозим смены вовремя, каждый день</div>
+  <p class="var-label">F. <span>Дорога с разметкой, города на синих дорожных указателях</span></p>
+  <div class="ctx"></div>
+  <div class="bleed f"><div class="row" data-k="f"></div></div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+
+  <p class="var-label">G. <span>Табло: название города перелистывается буквами, лента не едет</span></p>
+  <div class="ctx"></div>
+  <div class="bleed g"><p>Следующий рейс</p><span class="time">06:10</span><div class="flap" id="flap"></div></div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+
+  <p class="var-label">H. <span>Белые пилюли с зелёной точкой, как кнопки сайта</span></p>
+  <div class="ctx"></div>
+  <div class="bleed h"><div class="row" data-k="h"></div></div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+
+  <p class="var-label">I. <span>Остановки стоят на месте, вдоль них едет автобус и зажигает их</span></p>
+  <div class="ctx"></div>
+  <div class="bleed i">
+    <div class="line"></div>
+    <div class="stops" id="stops"></div>
+    <svg class="ibus" viewBox="0 0 46 24" fill="currentColor"><rect x="1" y="1" width="42" height="16" rx="4"/><rect x="5" y="4" width="30" height="6" rx="1.5" fill="#F4F1EC"/><circle cx="11" cy="19" r="3.5"/><circle cx="34" cy="19" r="3.5"/></svg>
+  </div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+
+  <p class="var-label">J. <span>Цифры компании вперемешку с городами</span></p>
+  <div class="ctx"></div>
+  <div class="bleed j"><div class="row" data-k="j"></div></div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
   <div style="height:80px"></div>
 </div>
 <script>
@@ -106,7 +178,40 @@ const make = {
   e: () => ['склады', 'заводы', 'офисы', 'смены'].map((c) => `<span>${c}</span>`).join(''),
   e2: () => cities.slice(0, 5).map((c) => `<span>${c}</span>`).join(''),
 };
+make.f = make.c;
+make.h = make.c;
+make.j = () => {
+  const nums = [['30+', 'машин'], ['45+', 'водителей'], ['5000+', 'пассажиров в день'], ['15+', 'маршрутов']];
+  return cities.slice(0, 8).map((c, i) => `<span>${c}</span>` + (i % 2 ? `<span class="num"><b>${nums[(i - 1) / 2][0]}</b><em>${nums[(i - 1) / 2][1]}</em></span>` : '')).join('');
+};
 document.querySelectorAll('.row').forEach((r) => { const h = make[r.dataset.k](); r.innerHTML = h + h + h + h; });
+
+// G: табло перелистывает буквы
+const flap = document.getElementById('flap');
+const W = 11;
+for (let i = 0; i < W; i++) flap.append(document.createElement('b'));
+const flapTimes = ['06:10', '06:35', '07:05', '07:20', '18:40', '19:15', '19:50', '20:30', '05:40'];
+let ci = 0;
+function showCity() {
+  const word = cities[ci].toUpperCase().padEnd(W, ' ').slice(0, W);
+  [...flap.children].forEach((b, i) => setTimeout(() => {
+    b.classList.remove('flip'); void b.offsetWidth; b.classList.add('flip');
+    setTimeout(() => { b.textContent = word[i]; }, 170);
+  }, i * 45));
+  document.querySelector('.g .time').textContent = flapTimes[ci];
+  ci = (ci + 1) % cities.length;
+}
+showCity(); setInterval(showCity, 2600);
+
+// I: остановки загораются, когда автобус проехал
+const stops = document.getElementById('stops');
+stops.innerHTML = cities.map((c) => `<span>${c}</span>`).join('');
+const ibus = document.querySelector('.ibus');
+(function lightUp() {
+  const x = ibus.getBoundingClientRect().left + 23;
+  stops.querySelectorAll('span').forEach((s) => s.classList.toggle('on', s.getBoundingClientRect().left <= x));
+  requestAnimationFrame(lightUp);
+})();
 </script>
 </body>
 </html>
