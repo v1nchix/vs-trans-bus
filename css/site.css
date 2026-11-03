@@ -98,21 +98,6 @@ h1, h2, h3, p { margin: 0; }
   -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 98%);
   mask-image: linear-gradient(to bottom, #000 82%, transparent 98%);
 }
-/* две стеклянные плашки с цифрами по краям автобуса, борт не закрывают */
-.fact {
-  position: absolute; z-index: 3; display: flex; align-items: center; gap: 12px;
-  padding: 12px 18px 12px 14px; border-radius: 18px;
-  background: rgba(255, 255, 255, .7);
-  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .8) inset, 0 16px 34px -14px rgba(11, 27, 54, .35);
-}
-.fact b { font-size: 26px; font-weight: 700; letter-spacing: -.02em; line-height: 1; color: var(--ink); }
-.fact span { font-size: 12.5px; line-height: 1.25; color: var(--muted); }
-.fact--1 { left: 0; top: 18%; }
-.fact--2 { right: 0; bottom: 16%; }
-.js .fact { animation: rise .9s var(--ease) both; }
-.js .fact--1 { animation-delay: .7s; }
-.js .fact--2 { animation-delay: .85s; }
 
 /* бегущая лента направлений: во всю ширину экрана */
 .ticker { width: 100vw; margin: 20px 0 0 calc(50% - 50vw); overflow: hidden; border-block: 1px solid var(--line); padding: 16px 0; }
@@ -314,10 +299,7 @@ h1, h2, h3, p { margin: 0; }
   .top { grid-template-columns: auto 1fr; }
   .top__logo img { max-width: none; }
   .hero__body { grid-template-columns: 1fr; margin-top: 0; }
-  .hero__visual { order: -1; margin: -2vw -4% 0; }
-  .fact--1 { left: 4%; top: auto; bottom: -4%; }
-  .fact--2 { right: 4%; bottom: -4%; }
-  .hero__text { padding-bottom: 0; }
+  .hero__visual { order: -1; margin: -2vw -4% 0; }  .hero__text { padding-bottom: 0; }
   .block__head { flex-direction: column; align-items: flex-start; }
   .final { grid-template-columns: 1fr; padding-bottom: 0; }
   .final__art { min-height: 400px; }
@@ -331,11 +313,7 @@ h1, h2, h3, p { margin: 0; }
   .top__logo img { height: 20px; }
   .btn--sm { height: 42px; padding-left: 18px; font-size: 13.5px; gap: 10px; }
   .btn--sm .btn__arrow { width: 28px; height: 28px; background-size: 13px; }
-  .hero__name { font-size: 13.9vw; }
-  .fact { padding: 9px 13px 9px 11px; gap: 9px; border-radius: 14px; }
-  .fact b { font-size: 20px; }
-  .fact span { font-size: 11px; }
-  .hero__text { margin-top: 26px; }
+  .hero__name { font-size: 13.9vw; }  .hero__text { margin-top: 26px; }
   .hero__btns .btn { flex: 1 1 auto; justify-content: space-between; }
   .trust { grid-template-columns: 1fr; padding: 28px 22px; gap: 24px; border-radius: var(--r-lg); }
   .trust__tiles { grid-template-columns: 1fr; }
