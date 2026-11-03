@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Варианты ленты — ВС ТРАНС БУС</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<style>
+  body { overflow-x: hidden; }
+  .var-label { margin: 56px 0 20px; font-size: 15px; font-weight: 600; }
+  .var-label span { color: var(--muted); font-weight: 400; }
+  .ctx { height: 60px; border-radius: 0 0 22px 22px; background: linear-gradient(#F4F1EC, #ECE8E1); margin-bottom: 0; opacity: .7; }
+  .mini-about { background: var(--ink); color: #fff; border-radius: var(--r-xl); padding: 26px 40px; font-weight: 600; font-size: 22px; margin: 0 calc(var(--pad) * -.45); }
+  /* общее: во всю ширину экрана и отступы до плашки */
+  .bleed { width: 100vw; margin-left: calc(50% - 50vw); overflow: hidden; margin-block: 28px 40px; }
+  .row { display: flex; width: max-content; animation: run 44s linear infinite; }
+  .row--back { animation-direction: reverse; }
+  @keyframes run { to { transform: translateX(-50%); } }
+
+  /* A. тёмно-синяя полоса */
+  .a { background: var(--ink); color: #fff; padding: 18px 0; }
+  .a span { display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-size: 20px; font-weight: 600; white-space: nowrap; }
+  .a svg { width: 34px; height: 18px; flex: none; opacity: .55; }
+
+  /* B. табло отправлений */
+  .b { background: #0a1424; padding: 14px 0; border-block: 1px solid #22314a; }
+  .b span { display: inline-flex; align-items: center; gap: 16px; padding: 0 34px; border-right: 1px solid #22314a; white-space: nowrap; font: 600 18px/1 "Onest", sans-serif; color: #fff; }
+  .b i { font-style: normal; font-variant-numeric: tabular-nums; color: #FFC24A; letter-spacing: .04em; }
+  .b em { font-style: normal; font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: #6E9BFF; }
+
+  /* C. наклонные ленты крест-накрест */
+  .c { position: relative; height: 150px; margin-block: 20px 30px; }
+  .c .strip { position: absolute; left: -5%; right: -5%; top: 50%; padding: 14px 0; overflow: hidden; }
+  .c .strip--1 { background: var(--ink); color: #fff; transform: translateY(-50%) rotate(-2.5deg); z-index: 1; }
+  .c .strip--2 { background: var(--soft); color: var(--ink); transform: translateY(-50%) rotate(2deg); }
+  .c span { display: inline-flex; align-items: center; gap: 26px; padding-right: 26px; font-size: 19px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+  .c span::after { content: "✦"; font-size: 14px; opacity: .6; }
+
+  /* D. линия маршрута с остановками */
+  .d { padding: 6px 0 4px; }
+  .d .row { align-items: center; }
+  .d span { position: relative; display: inline-flex; flex-direction: column; align-items: center; gap: 12px; width: 190px; font-size: 16px; font-weight: 600; white-space: nowrap; }
+  .d span::before { content: ""; position: absolute; top: 9px; left: 0; right: 0; height: 3px; background: repeating-linear-gradient(90deg, var(--navy) 0 14px, transparent 14px 22px); opacity: .35; }
+  .d span b { position: relative; width: 20px; height: 20px; border-radius: 50%; background: var(--bg); border: 4px solid var(--navy); }
+  .d span:nth-child(3n) b { background: var(--navy); box-shadow: 0 0 0 6px rgba(14,38,77,.12); }
+
+  /* E. крупные слова: обводка и заливка, две строки навстречу */
+  .e { padding: 4px 0; }
+  .e .row + .row { margin-top: 2px; }
+  .e span { font-size: 64px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; padding-right: 36px; white-space: nowrap; }
+  .e .row--back span { color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+
+  @media (max-width: 640px) {
+    .e span { font-size: 40px; }
+    .a span, .c span { font-size: 16px; }
+    .d span { width: 150px; font-size: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .row { animation-duration: 160s; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <p class="var-label">A. <span>Тёмно-синяя полоса во всю ширину, между городами значок автобуса</span></p>
+  <div class="ctx"></div>
+  <div class="bleed a"><div class="row" data-k="a"></div></div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+
+  <p class="var-label">B. <span>Табло отправлений: время, маршрут, «по графику»</span></p>
+  <div class="ctx"></div>
+  <div class="bleed b"><div class="row" data-k="b"></div></div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+
+  <p class="var-label">C. <span>Две наклонные ленты крест-накрест</span></p>
+  <div class="ctx"></div>
+  <div class="bleed c">
+    <div class="strip strip--1"><div class="row" data-k="c"></div></div>
+    <div class="strip strip--2"><div class="row row--back" data-k="c2"></div></div>
+  </div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+
+  <p class="var-label">D. <span>Линия маршрута: города как остановки, линия едет</span></p>
+  <div class="ctx"></div>
+  <div class="bleed d"><div class="row" data-k="d"></div></div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+
+  <p class="var-label">E. <span>Крупные слова в две строки навстречу друг другу</span></p>
+  <div class="ctx"></div>
+  <div class="bleed e"><div class="row" data-k="e"></div><div class="row row--back" data-k="e2"></div></div>
+  <div class="mini-about">Довозим смены вовремя, каждый день</div>
+  <div style="height:80px"></div>
+</div>
+<script>
+const cities = ['Подольск', 'Коледино', 'Домодедово', 'Чехов', 'Электроугли', 'Белая Дача', 'Шушары', 'Химки', 'Лобня'];
+const bus = '<svg viewBox="0 0 34 18" fill="currentColor"><rect x="1" y="1" width="30" height="12" rx="3"/><circle cx="8" cy="15" r="2.5"/><circle cx="25" cy="15" r="2.5"/></svg>';
+const times = ['05:40', '06:10', '06:35', '07:05', '07:20', '18:40', '19:15', '19:50', '20:30'];
+const make = {
+  a: () => cities.map((c) => `<span>${c}${bus}</span>`).join(''),
+  b: () => cities.map((c, i) => `<span><i>${times[i]}</i>Москва — ${c}<em>по графику</em></span>`).join(''),
+  c: () => cities.map((c) => `<span>${c}</span>`).join(''),
+  c2: () => ['Перевозка сотрудников', 'Дневные и ночные смены', 'Свои водители', 'Свой ангар'].map((c) => `<span>${c}</span>`).join(''),
+  d: () => cities.map((c) => `<span><b></b>${c}</span>`).join(''),
+  e: () => ['склады', 'заводы', 'офисы', 'смены'].map((c) => `<span>${c}</span>`).join(''),
+  e2: () => cities.slice(0, 5).map((c) => `<span>${c}</span>`).join(''),
+};
+document.querySelectorAll('.row').forEach((r) => { const h = make[r.dataset.k](); r.innerHTML = h + h + h + h; });
+</script>
+</body>
+</html>
