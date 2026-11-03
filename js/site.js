@@ -135,17 +135,44 @@ const count=b=>{
 const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){count(e.target);cio.unobserve(e.target)}}),{threshold:.5});
 document.querySelectorAll('.bn b').forEach(b=>cio.observe(b));
 
-// сцена: автобус проезжает через экран, фразы сменяются
+// сцена проезда: видео автобуса прокручивается кадр за кадром вместе со страницей, фразы сменяются
 const drive=document.querySelector('.drive');
 // лента автопарка: на компьютере едет вбок при прокрутке, на телефоне листается пальцем
 const rail=document.querySelector('.rail');
 if(!reduce&&(drive||rail)){
   const words=drive?[...drive.querySelectorAll('.drive-words li')]:[];
-  const lines=drive?[...drive.querySelectorAll('.drive-lines i')]:[];
+  const film=drive&&drive.querySelector('.drive-film');
   const track=rail&&rail.querySelector('.track');
   const wide=matchMedia('(min-width:901px) and (min-height:600px)');
   if(drive)drive.classList.add('live');
-  let lastY=scrollY,speed=0,dist=0;
+  let dist=0;
+  const prog=el=>{const r=el.getBoundingClientRect(),h=r.height-innerHeight;return h>0?Math.min(1,Math.max(0,-r.top/h)):0};
+
+  // кадры видео: на телефоне лёгкие, на компьютере крупные; сначала каждый 8-й, потом остальные
+  const N=film?+film.dataset.frames:0,frames=[],ctx=film&&film.getContext('2d');
+  let want=0,shown=-1;
+  const draw=()=>{
+    let i=want,j=0;
+    while(!(frames[i]&&frames[i].complete&&frames[i].naturalWidth)){j++;if(j>N)return;i=want+(j%2?-1:1)*Math.ceil(j/2);if(i<0||i>=N)i=want}
+    if(i===shown)return;shown=i;
+    const im=frames[i],W=film.width,H=film.height,iw=im.naturalWidth,ih=im.naturalHeight;
+    const phone=W<H,s=phone?W/iw*2:Math.max(W/iw,H/ih),w=iw*s,h=ih*s,x=(W-w)/2,y=phone?H*.58-h/2:(H-h)/2;
+    ctx.fillStyle='#01112A';ctx.fillRect(0,0,W,H);
+    ctx.drawImage(im,x,y,w,h);
+    if(phone){// мягкие края кадра на телефоне
+      for(const [y0,y1] of [[y,y+h*.3],[y+h,y+h*.7]]){const g=ctx.createLinearGradient(0,y0,0,y1);g.addColorStop(0,'#01112A');g.addColorStop(1,'rgba(1,17,42,0)');ctx.fillStyle=g;ctx.fillRect(0,Math.min(y0,y1),W,Math.abs(y1-y0))}
+    }
+  };
+  const sizeFilm=()=>{if(!film)return;const r=Math.min(2,devicePixelRatio||1);film.width=Math.round(film.clientWidth*r);film.height=Math.round(film.clientHeight*r);shown=-1;draw()};
+  if(film){
+    const dir=innerWidth<=700?'m':'d',order=[];
+    for(const step of [8,4,2,1])for(let i=0;i<N;i+=step)if(!order.includes(i))order.push(i);
+    const lo=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;lo.disconnect();
+      order.forEach(i=>{const im=new Image();im.decoding='async';im.onload=()=>{shown=-1;draw()};im.src='img/drive/'+dir+'/'+String(i+1).padStart(3,'0')+'.webp';frames[i]=im});
+    },{rootMargin:'150% 0px'});
+    lo.observe(drive);
+  }
+
   const setRail=()=>{
     if(!rail)return;
     rail.classList.toggle('live',wide.matches);
@@ -155,26 +182,17 @@ if(!reduce&&(drive||rail)){
     rail.style.height=wide.matches?(innerHeight+dist)+'px':'';
     if(!wide.matches)track.style.removeProperty('--tx');
   };
-  const prog=el=>{const r=el.getBoundingClientRect(),h=r.height-innerHeight;return h>0?Math.min(1,Math.max(0,-r.top/h)):0};
-  // положение считаем прямо при прокрутке; скорость линий плавно гаснет отдельным кадром
   const update=()=>{
-    speed=Math.min(60,speed*.6+Math.abs(scrollY-lastY));lastY=scrollY;
     if(drive){
       const p=prog(drive);
-      drive.style.setProperty('--bx',(-75+150*p).toFixed(2)+'vw');
+      want=Math.round(p*(N-1));draw();
       const k=Math.min(2,Math.floor(p*3));
       words.forEach((w,i)=>w.classList.toggle('on',i===k));
-      lines.forEach((l,i)=>l.style.setProperty('--lx',(((1-p)*(140+i*30))-40).toFixed(1)+'vw'));
     }
     if(rail&&rail.classList.contains('live'))track.style.setProperty('--tx',(-prog(rail)*dist).toFixed(1)+'px');
   };
-  let fading=false;
-  const fade=()=>{
-    speed*=.9;if(drive)drive.style.setProperty('--lv',Math.min(.9,speed/25).toFixed(2));
-    if(speed>.5)requestAnimationFrame(fade);else{fading=false;if(drive)drive.style.setProperty('--lv',0)}
-  };
-  addEventListener('scroll',()=>{update();if(!fading){fading=true;requestAnimationFrame(fade)}},{passive:true});
-  const setAll=()=>{setRail();update()};
+  addEventListener('scroll',update,{passive:true});
+  const setAll=()=>{setRail();sizeFilm();update()};
   setAll();addEventListener('resize',setAll);addEventListener('load',setAll);
 }
 
