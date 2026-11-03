@@ -253,7 +253,7 @@ h1, h2, h3, p { margin: 0; }
   .btn--line:hover, .btn--ghost:hover { border-color: currentColor; }
   .btn--soft:hover { background: #DCE5F4; }
   .btn:hover .btn__arrow, .link:hover .link__arrow { transform: rotate(45deg); }
-  .top__nav a:hover:not(.is-on) { background: var(--bg); }
+  .top__nav a:hover:not(.is-on) { background: var(--soft); }
   .card:hover { background: #E5E0D7; }
   .card:hover .card__img { transform: scale(1.04) translateX(1.5%); }
   .card:hover .card__go { transform: rotate(45deg); }
