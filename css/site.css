@@ -94,6 +94,21 @@ h1, h2, h3, p { margin: 0; }
   mask-image: linear-gradient(to bottom, #000 82%, transparent 98%);
 }
 
+/* клиенты под кнопками */
+.clients { margin-top: 34px; }
+.clients p { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.clients div { display: flex; gap: 12px; flex-wrap: wrap; }
+.chip { height: 48px; padding: 0 20px; border-radius: 14px; display: inline-flex; align-items: center; font-weight: 800; font-size: 19px; letter-spacing: -.01em; color: #fff; }
+.chip--wb { background: linear-gradient(120deg, #8D1AC9, #D8197E); }
+.chip--oz { background: #005BFF; font-size: 21px; letter-spacing: .02em; }
+
+/* бегущая лента направлений */
+.ticker { margin: 20px calc(var(--pad) * -1) 0; overflow: hidden; border-block: 1px solid var(--line); padding: 16px 0; }
+.ticker__row { display: flex; width: max-content; animation: run 38s linear infinite; }
+.ticker span { font-size: 22px; font-weight: 600; letter-spacing: -.01em; padding: 0 28px; white-space: nowrap; display: inline-flex; align-items: center; gap: 56px; }
+.ticker span::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--navy); opacity: .35; margin-right: -28px; }
+@keyframes run { to { transform: translateX(-50%); } }
+
 /* о компании */
 .about {
   display: grid; grid-template-columns: 4.2fr 5fr auto; align-items: center; gap: 40px;
@@ -255,6 +270,7 @@ h1, h2, h3, p { margin: 0; }
   .js .hero__name, .js .hero__text, .js .hero__bus { animation: none; }
   .js .phone .msg, .js .phone .typing { opacity: 1; transform: none; transition: none; }
   .typing i { animation: none; }
+  .ticker__row { animation-duration: 120s; }
 }
 
 /* планшет */
@@ -286,6 +302,11 @@ h1, h2, h3, p { margin: 0; }
   .btn--sm .btn__arrow { width: 28px; height: 28px; background-size: 13px; }
   .hero__name { font-size: 15.9vw; }
   .hero__btns .btn { flex: 1 1 auto; justify-content: space-between; }
+  .clients { margin-top: 26px; }
+  .chip { height: 42px; padding: 0 16px; font-size: 17px; }
+  .chip--oz { font-size: 18px; }
+  .ticker span { font-size: 18px; padding: 0 20px; gap: 40px; }
+  .ticker span::after { margin-right: -20px; }
   .about { grid-template-columns: 1fr; gap: 18px; margin: 4px 0 0; padding: 28px 22px; border-radius: var(--r-lg); }
   .cards { grid-template-columns: 1fr; gap: 14px; }
   .card { padding: 24px 22px 0; }
