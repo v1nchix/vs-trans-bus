@@ -1,213 +1,51 @@
-// Контакты менеджеров: заполнить перед запуском (номер WhatsApp цифрами, ник Telegram, ссылка MAX)
-const CONTACTS={whatsapp:'',telegram:'',max:''};
+// Контакты менеджеров: вписать, когда появятся (пустые = кнопки ведут к блоку контактов)
+const CONTACTS = { wa: '', tg: '', max: '' };
 
-const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const rub=n=>Math.round(n).toLocaleString('ru-RU')+' ₽';
+// огромное название ровно по ширине колонки
+const heroName = document.querySelector('.hero__name');
+function fitName() {
+  heroName.style.fontSize = '';
+  const range = document.createRange();
+  range.selectNodeContents(heroName);
+  const textW = range.getBoundingClientRect().width;
+  const boxW = heroName.parentElement.clientWidth;
+  const cs = getComputedStyle(heroName);
+  const fs = parseFloat(cs.fontSize);
+  // отрицательная разрядка после последней буквы съедает ширину, а сама буква остаётся целой
+  const tail = Math.max(0, -parseFloat(cs.letterSpacing) || 0);
+  heroName.style.fontSize = (fs * boxW / (textW + tail)).toFixed(2) + 'px';
+}
+document.fonts.ready.then(fitName);
+addEventListener('resize', fitName);
 
-// панель выбора мессенджера: одна логика для конструктора и калькулятора
-function openSend(panel,text){
-  const note=panel.querySelector('.msg-note'),t=encodeURIComponent(text);
-  const links={
-    whatsapp:CONTACTS.whatsapp&&'https://wa.me/'+CONTACTS.whatsapp+'?text='+t,
-    telegram:CONTACTS.telegram&&'https://t.me/'+CONTACTS.telegram,
-    max:CONTACTS.max
-  };
-  panel.querySelectorAll('a[data-m]').forEach(a=>{
-    const url=links[a.dataset.m];
-    a.href=url||'#';
-    a.onclick=ev=>{
-      if(!url){ev.preventDefault();note.textContent='Контакты мессенджеров добавим перед запуском сайта.';return}
-      if(a.dataset.m!=='whatsapp'&&navigator.clipboard){try{navigator.clipboard.writeText(text)}catch(e){}note.textContent='Текст заявки скопирован, вставьте его в чат.'}
-    };
+// появление блоков при прокрутке
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
   });
-  note.textContent='';
-  panel.classList.add('on');
-}
+}, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-// конструктор заявки на первом экране
-const form=document.getElementById('trip');
-if(form){
-  const send=form.querySelector('.send');
-  form.date.min=new Date().toISOString().slice(0,10);
-  // пустая дата серая, как остальные подсказки
-  const dt=()=>form.date.classList.toggle('has',!!form.date.value);form.date.addEventListener('input',dt);dt();
-  const message=()=>{
-    const d=new FormData(form),f=k=>(d.get(k)||'').toString().trim();
-    const date=f('date')?new Date(f('date')).toLocaleDateString('ru-RU'):'';
-    const shifts=d.getAll('shift').join(' и ');
-    return ['Здравствуйте! Хочу рассчитать перевозку сотрудников.',f('service')&&'Объект: '+f('service'),shifts&&'Смены: '+shifts,
-      f('from')&&'Откуда: '+f('from'),f('to')&&'Куда: '+f('to'),date&&'С какого числа: '+date,f('people')&&'Человек в смене: '+f('people')]
-      .filter(Boolean).join('\n');
-  };
-  form.addEventListener('submit',e=>{e.preventDefault();openSend(send,message())});
+// вкладки «Как работаем» подсвечивают свою карточку
+const tabs = document.querySelectorAll('.tab');
+const steps = document.querySelectorAll('.step');
+tabs.forEach((tab) => tab.addEventListener('click', () => {
+  tabs.forEach((t) => t.classList.toggle('is-on', t === tab));
+  steps.forEach((s) => s.classList.toggle('is-on', s.dataset.step === tab.dataset.tab));
+}));
+steps.forEach((step) => step.addEventListener('mouseenter', () => {
+  if (!matchMedia('(hover: hover)').matches) return;
+  tabs.forEach((t) => t.classList.toggle('is-on', t.dataset.tab === step.dataset.step));
+  steps.forEach((s) => s.classList.toggle('is-on', s === step));
+}));
 
-}
-
-// калькулятор
-const calc=document.getElementById('calc-form');
-if(calc){
-  const VEH=[{n:'микроавтобус',seats:20,rate:3000},{n:'средний автобус',seats:31,rate:4000},{n:'туристический автобус',seats:55,rate:4200}];
-  const out=k=>calc.querySelector('[data-o="'+k+'"]');
-  // самый дешёвый набор машин, который вмещает смену
-  const pick=people=>{
-    let best=null;
-    for(let c=0;c<=Math.ceil(people/55);c++)for(let b=0;b<=3;b++)for(let a=0;a<=3;a++){
-      if(a*20+b*31+c*55<people)continue;
-      const cost=a*3000+b*4000+c*4200,cnt=a+b+c;
-      if(!best||cost<best.cost||(cost===best.cost&&cnt<best.cnt))best={a,b,c,cost,cnt};
-    }
-    return best;
-  };
-  const plural=(n,f)=>f[(n%10===1&&n%100!==11)?0:(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?1:2];
-  // сумма как вокзальное табло: меняются только те цифры, что изменились
-  const board=(el,s)=>{
-    let tiles=el.querySelector('.tiles');
-    if(!tiles){el.innerHTML='<span class="tiles"></span><small>₽ в месяц</small>';tiles=el.firstChild}
-    const chars=[...s.replace(/\s/g,' ')],old=[...tiles.children];
-    while(tiles.children.length>chars.length)tiles.lastChild.remove();
-    chars.forEach((c,i)=>{
-      let d=tiles.children[i];
-      if(!d){d=document.createElement('span');tiles.append(d)}
-      if(d.textContent===c)return;
-      d.textContent=c;d.className='d'+(c===' '?' sp':'');
-      if(!reduce&&old[i]){d.offsetWidth;d.classList.add('flip')}
-    });
-    el.setAttribute('aria-label',s+' рублей в месяц');
-  };
-  let last='';
-  const run=()=>{
-    const v=k=>+calc.elements[k].value;
-    const people=v('people'),hours=v('hours'),days=v('days'),shifts=+calc.querySelector('input[name=shifts]:checked').value;
-    calc.querySelectorAll('input[type=range]').forEach(r=>r.style.setProperty('--p',((r.value-r.min)/(r.max-r.min)*100)+'%'));
-    out('people').value=people;out('hours').value=hours+' ч';out('days').value=days;
-    const p=pick(people),day=p.cost*hours*shifts,month=day*days;
-    const cars=[[p.c,2],[p.b,1],[p.a,0]].filter(x=>x[0]).map(([n,i])=>n+' × '+VEH[i].n);
-    board(out('month'),rub(month).replace(' ₽',''));
-    out('day').textContent=rub(day);
-    out('seat').textContent=rub(month/(people*days*shifts*2));
-    out('cars').textContent=cars.join(' + ');
-    out('cnt').textContent=p.cnt+' '+plural(p.cnt,['машина','машины','машин'])+' на смену';
-    const svc=calc.elements.service.value;
-    last=['Здравствуйте! Посчитал перевозку сотрудников на сайте.',...(svc?['Интересует: '+svc]:[]),'Человек в смене: '+people,'Смен в сутки: '+shifts,
-      'Часов работы машин на смену: '+hours,'Рабочих дней в месяц: '+days,'Машины: '+cars.join(' + '),'Примерно: '+rub(month)+' в месяц'].join('\n');
-  };
-  calc.addEventListener('input',run);calc.addEventListener('change',run);run();
-  calc.addEventListener('submit',e=>{e.preventDefault();openSend(calc.querySelector('.send'),last)});
-  // кнопки «Рассчитать» на карточках: запоминаем выбор и ведём в калькулятор
-  document.querySelectorAll('button.svc-go').forEach(b=>b.addEventListener('click',()=>{
-    calc.elements.service.value=b.dataset.service;run();
-    calc.querySelector('.send').classList.remove('on');
-    document.getElementById('calc').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
-    setTimeout(()=>calc.elements.people.focus({preventScroll:true}),700);
-  }));
-}
-
-// страница контактов: кнопки мессенджеров с текстом по умолчанию
-document.querySelectorAll('[data-send]').forEach(p=>openSend(p,'Здравствуйте! Хочу рассчитать перевозку сотрудников.'));
-
-// меню на телефоне
-const drawer=document.querySelector('.drawer');
-if(drawer){
-  const toggle=on=>{drawer.classList.toggle('on',on);document.body.classList.toggle('lock',on);drawer.setAttribute('aria-hidden',!on)};
-  document.querySelector('.burger').addEventListener('click',()=>toggle(true));
-  drawer.querySelector('.close').addEventListener('click',()=>toggle(false));
-  drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')toggle(false)});
-}
-
-// плавное появление блоков при прокрутке
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.head,.grid,.reveal').forEach(el=>io.observe(el));
-
-// активный пункт меню
-document.querySelectorAll('.menu a,.drawer nav a').forEach(a=>{
-  const h=a.getAttribute('href');
-  if(!h.includes('#')&&location.pathname.endsWith(h.replace(/^(\.\.\/)+/,'')))a.setAttribute('aria-current','page');
-});
-
-// крупные цифры: считают до своего значения, когда показались
-const count=b=>{
-  const m=b.textContent.match(/(\d+)(.*)/);if(!m||reduce)return;
-  const end=+m[1],tail=m[2],t0=performance.now(),dur=1400;
-  const tick=t=>{const k=Math.min(1,Math.max(0,(t-t0)/dur)),e=1-Math.pow(1-k,3);b.textContent=Math.round(end*e)+tail;if(k<1)requestAnimationFrame(tick)};
-  requestAnimationFrame(tick);
-};
-const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){count(e.target);cio.unobserve(e.target)}}),{threshold:.5});
-document.querySelectorAll('.bn b').forEach(b=>cio.observe(b));
-
-// первый экран: видео автобуса прокручивается кадр за кадром вместе со страницей, фразы сменяются
-const drive=document.querySelector('.drive');
-// лента автопарка: на компьютере едет вбок при прокрутке, на телефоне листается пальцем
-const rail=document.querySelector('.rail');
-if(!reduce&&(drive||rail)){
-  const words=drive?[...drive.querySelectorAll('.drive-words li')]:[];
-  const film=drive&&drive.querySelector('.drive-film');
-  const track=rail&&rail.querySelector('.track');
-  const wide=matchMedia('(min-width:901px) and (min-height:600px)');
-  if(drive)drive.classList.add('live');
-  let dist=0;
-  const prog=el=>{const r=el.getBoundingClientRect(),h=r.height-innerHeight;return h>0?Math.min(1,Math.max(0,-r.top/h)):0};
-
-  // кадры видео: на телефоне лёгкие, на компьютере крупные; сначала каждый 8-й, потом остальные
-  const N=film?+film.dataset.frames:0,frames=[],ctx=film&&film.getContext('2d');
-  let want=0,shown=-1;
-  const draw=()=>{
-    let i=want,j=0;
-    while(!(frames[i]&&frames[i].complete&&frames[i].naturalWidth)){j++;if(j>N)return;i=want+(j%2?-1:1)*Math.ceil(j/2);if(i<0||i>=N)i=want}
-    if(i===shown)return;shown=i;
-    const im=frames[i],W=film.width,H=film.height,iw=im.naturalWidth,ih=im.naturalHeight;
-    const phone=W<H,s=phone?H*.47/ih:Math.max(W/iw,H/ih),w=iw*s,h=ih*s,x=phone?W*.5-w*.35:(W-w)*.3,y=phone?H*.565-h/2:(H-h)/2;
-    ctx.fillStyle='#01112A';ctx.fillRect(0,0,W,H);
-    ctx.drawImage(im,x,y,w,h);
-    if(phone){// мягкие края кадра на телефоне
-      for(const [y0,y1] of [[y,y+h*.3],[y+h,y+h*.7]]){const g=ctx.createLinearGradient(0,y0,0,y1);g.addColorStop(0,'#01112A');g.addColorStop(1,'rgba(1,17,42,0)');ctx.fillStyle=g;ctx.fillRect(0,Math.min(y0,y1),W,Math.abs(y1-y0))}
-    }
-  };
-  const sizeFilm=()=>{if(!film)return;const r=Math.min(2,devicePixelRatio||1);film.width=Math.round(film.clientWidth*r);film.height=Math.round(film.clientHeight*r);shown=-1;draw()};
-  if(film){
-    const dir=innerWidth<=700?'m':'d',order=[];
-    for(const step of [8,4,2,1])for(let i=0;i<N;i+=step)if(!order.includes(i))order.push(i);
-    const lo=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;lo.disconnect();
-      order.forEach(i=>{const im=new Image();im.decoding='async';im.onload=()=>{shown=-1;draw()};im.src='img/drive/'+dir+'/'+String(i+1).padStart(3,'0')+'.webp';frames[i]=im});
-    },{rootMargin:'150% 0px'});
-    lo.observe(drive);
-  }
-
-  const setRail=()=>{
-    if(!rail)return;
-    rail.classList.toggle('live',wide.matches);
-    const s=track.children,pad=parseFloat(getComputedStyle(track).paddingLeft);
-    // насколько сдвинуть ленту, чтобы последняя машина встала по правому краю сетки
-    dist=Math.max(0,s[s.length-1].offsetLeft+s[s.length-1].offsetWidth-s[0].offsetLeft-(document.documentElement.clientWidth-2*pad));
-    rail.style.height=wide.matches?(innerHeight+dist)+'px':'';
-    if(!wide.matches)track.style.removeProperty('--tx');
-  };
-  const update=()=>{
-    if(drive){
-      const p=prog(drive);
-      want=Math.round(p*(N-1));draw();
-      // сначала уходит заголовок первого экрана, потом по очереди три фразы
-      const ho=Math.max(0,1-p/.1);
-      drive.style.setProperty('--ho',ho.toFixed(3));drive.classList.toggle('gone',ho===0);
-      const k=p<.16?-1:Math.min(2,Math.floor((p-.16)/.84*3));
-      words.forEach((w,i)=>w.classList.toggle('on',i===k));
-    }
-    if(rail&&rail.classList.contains('live'))track.style.setProperty('--tx',(-prog(rail)*dist).toFixed(1)+'px');
-  };
-  addEventListener('scroll',update,{passive:true});
-  const setAll=()=>{setRail();sizeFilm();update()};
-  setAll();addEventListener('resize',setAll);addEventListener('load',setAll);
-}
-
-// кнопки слегка притягиваются к курсору
-if(!reduce&&matchMedia('(hover:hover) and (pointer:fine)').matches)document.querySelectorAll('.pill,.round').forEach(b=>{
-  b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.translate=((e.clientX-r.left-r.width/2)*.18).toFixed(1)+'px '+((e.clientY-r.top-r.height/2)*.3).toFixed(1)+'px'});
-  b.addEventListener('pointerleave',()=>{b.style.translate=''});
-});
-
-// свет и обводка за курсором на плашках
-if(matchMedia('(hover:hover)').matches)document.querySelectorAll('.glass,.svc,.car,.final,.slide').forEach(el=>{
-  if(el.closest('.hero'))return;
-  el.classList.add('spot');
-  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--x',(e.clientX-r.left)+'px');el.style.setProperty('--y',(e.clientY-r.top)+'px')});
+// мессенджеры
+const MSG = 'Здравствуйте! Хочу рассчитать перевозку сотрудников.';
+document.querySelectorAll('[data-msg]').forEach((a) => {
+  const id = CONTACTS[a.dataset.msg];
+  if (!id) { a.href = '#kontakty'; return; }
+  if (a.dataset.msg === 'wa') a.href = `https://wa.me/${id}?text=${encodeURIComponent(MSG)}`;
+  if (a.dataset.msg === 'tg') a.href = `https://t.me/${id}`;
+  if (a.dataset.msg === 'max') a.href = id;
+  a.target = '_blank'; a.rel = 'noopener';
 });

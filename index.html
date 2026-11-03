@@ -1,294 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#000A16">
-<!-- пока на сайте заглушки вместо контактов, страницы закрыты от поиска -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ВС ТРАНС БУС — перевозка сотрудников по Москве и области</title>
+<meta name="description" content="Перевозка сотрудников на склады, заводы и в офисы Москвы и области. Свой автопарк, свои водители, свой ремонтный ангар.">
+<meta name="theme-color" content="#F4F1EC">
 <meta name="robots" content="noindex, nofollow">
-<title>ВС ТРАНС БУС: перевозка сотрудников в Москве и области</title>
-<meta name="description" content="Перевозка сотрудников на склады, заводы и в офисы под ваш график смен. Свой парк автобусов, калькулятор стоимости. Москва и Московская область.">
-<meta property="og:title" content="ВС ТРАНС БУС: перевозка сотрудников в Москве и области">
-<meta property="og:description" content="Перевозка сотрудников на склады, заводы и в офисы под ваш график смен. Свой парк автобусов, калькулятор стоимости. Москва и Московская область.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="img/og.jpg">
-<link rel="icon" href="img/favicon.png" type="image/png">
-<script>document.documentElement.classList.add('js')</script>
+<link rel="icon" href="img/logo-mark.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="css/site.css?v=11031300">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-<a class="skip" href="#main">К содержанию</a>
+<div class="page">
 
-<section class="hero drive" aria-label="Перевозка сотрудников">
-  <div class="drive-in">
-    <img class="drive-poster" src="img/drive/d/001.webp" alt="Автобус ВС ТРАНС БУС на набережной у Москва-Сити" width="1920" height="1080" fetchpriority="high">
-    <canvas class="drive-film" aria-hidden="true" data-frames="121"></canvas>
-  <header class="bar in">
-    <a class="logo" href="./" aria-label="ВС ТРАНС БУС, на главную"><img src="img/logo.svg" alt="ВС ТРАНС БУС" width="167" height="26"></a>
-    <nav class="menu" aria-label="Разделы">
-      <a href="#uslugi">Кого возим</a>
-      <a href="#calc">Калькулятор</a>
-      <a href="avtopark/">Автопарк</a>
-      <a href="stati/">Статьи</a>
-      <a href="kontakty/">Контакты</a>
+  <header class="top">
+    <a class="top__logo" href="#" aria-label="ВС ТРАНС БУС, на главную"><img src="img/logo-mark.svg" alt="ВС ТРАНС БУС" width="66" height="40"></a>
+    <nav class="top__nav" aria-label="Разделы">
+      <a href="#uslugi">Услуги</a>
+      <a href="#o-nas">О нас</a>
+      <a href="#rabota">Как работаем</a>
+      <a href="#park">Автопарк</a>
+      <a href="#kontakty">Контакты</a>
     </nav>
-    <a class="pill" href="#calc">Рассчитать перевозку</a>
-    <button class="round burger" type="button" aria-label="Открыть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"/></svg></button>
+    <a class="btn btn--dark btn--sm" href="#kontakty">Рассчитать поездку <span class="btn__arrow" aria-hidden="true"></span></a>
   </header>
 
-    <main class="center">
-      <span class="cap in d1"><i class="stripes" aria-hidden="true"></i>Москва и Московская область</span>
-      <h1 class="mega in d2"><span class="lit">Перевозка</span> сотрудников <small>под ваш график смен</small></h1>
-      <div class="hero-foot in d3">
-        <div class="cta">
-          <a class="pill" href="#calc">Рассчитать стоимость</a>
-          <a class="pill ghost" href="kontakty/">Написать менеджеру</a>
+  <section class="hero" aria-label="ВС ТРАНС БУС">
+    <h1 class="hero__name">вс транс бус</h1>
+    <div class="hero__body">
+      <div class="hero__text">
+        <h2 class="hero__title">Перевозка сотрудников<br>для бизнеса</h2>
+        <p class="hero__lead">Возим смены на склады, заводы и в офисы Москвы и области. Свои автобусы, свои водители, свой ремонтный ангар.</p>
+        <div class="hero__btns">
+          <a class="btn btn--dark" href="#kontakty">Рассчитать поездку <span class="btn__arrow" aria-hidden="true"></span></a>
+          <a class="btn btn--line" href="#uslugi">Все услуги <span class="btn__arrow" aria-hidden="true"></span></a>
         </div>
       </div>
-    </main>
-    <ol class="drive-words" aria-label="Как проходит рейс">
-      <li><span class="cap"><i class="stripes" aria-hidden="true"></i>01</span>Забираем у&nbsp;метро</li>
-      <li><span class="cap"><i class="stripes" aria-hidden="true"></i>02</span>Везём по&nbsp;графику</li>
-      <li><span class="cap"><i class="stripes" aria-hidden="true"></i>03</span>Привозим к&nbsp;проходной</li>
-    </ol>
-  </div>
-</section>
-
-<section class="rail" id="park">
-  <div class="rail-in">
-    <div class="rail-head wrap">
-      <h2><span class="lit">Свой автопарк:</span> 30+ машин на линии</h2>
-      <p>Подберём машины под размер смены. Обслуживаем и ремонтируем их в своём ангаре. <a class="txt" href="avtopark/">Весь автопарк</a></p>
-    </div>
-    <div class="track">
-      <article class="slide">
-        <figure><img src="img/mikro.webp" alt="Микроавтобус, белый, без логотипов" loading="lazy" width="1024" height="1536"></figure>
-        <div class="slide-text">
-          <span class="cap"><i class="stripes" aria-hidden="true"></i>01 / 03</span>
-          <h3>Микроавтобус</h3>
-          <div class="slide-nums"><div><b>15–20</b><span>мест</span></div><div><b>3 000 ₽</b><span>в час</span></div></div>
-          <p>Смена до 20 человек, ранние и поздние рейсы, небольшие объекты.</p>
-          <button class="svc-go" type="button" data-service="Машина: микроавтобус" aria-label="Рассчитать: Микроавтобус"><span class="pill">Рассчитать</span><span class="round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
-        </div>
-      </article>
-      <article class="slide">
-        <figure><img src="img/midi.webp" alt="Средний автобус, белый, без логотипов" loading="lazy" width="1024" height="1536"></figure>
-        <div class="slide-text">
-          <span class="cap"><i class="stripes" aria-hidden="true"></i>02 / 03</span>
-          <h3>Средний автобус</h3>
-          <div class="slide-nums"><div><b>17–31</b><span>мест</span></div><div><b>4 000 ₽</b><span>в час</span></div></div>
-          <p>Смена до 31 человека, рейсы от метро до склада или завода.</p>
-          <button class="svc-go" type="button" data-service="Машина: средний автобус" aria-label="Рассчитать: Средний автобус"><span class="pill">Рассчитать</span><span class="round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
-        </div>
-      </article>
-      <article class="slide">
-        <figure><img src="img/turist.webp" alt="Туристический автобус, белый, без логотипов" loading="lazy" width="1024" height="1536"></figure>
-        <div class="slide-text">
-          <span class="cap"><i class="stripes" aria-hidden="true"></i>03 / 03</span>
-          <h3>Туристический автобус</h3>
-          <div class="slide-nums"><div><b>37–55</b><span>мест</span></div><div><b>4 200 ₽</b><span>в час</span></div></div>
-          <p>Большие смены, дальние маршруты по области, багажные отсеки.</p>
-          <button class="svc-go" type="button" data-service="Машина: туристический автобус" aria-label="Рассчитать: Туристический автобус"><span class="pill">Рассчитать</span><span class="round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="big-nums" aria-label="Цифры">
-  <div class="wrap">
-    <div class="bn reveal"><b>30+</b><span><i class="stripes" aria-hidden="true"></i>машин в парке</span></div>
-    <div class="bn reveal"><b>45+</b><span><i class="stripes" aria-hidden="true"></i>водителей</span></div>
-    <div class="bn reveal"><b>15+</b><span><i class="stripes" aria-hidden="true"></i>маршрутов каждый день</span></div>
-    <div class="bn reveal"><b>5000+</b><span><i class="stripes" aria-hidden="true"></i>пассажиров в день</span></div>
-  </div>
-  <div class="dawn" aria-hidden="true"></div>
-</section>
-
-<div class="drawer" aria-hidden="true">
-  <div class="top"><img src="img/logo.svg" alt="ВС ТРАНС БУС" width="129" height="20"><button class="round close" type="button" aria-label="Закрыть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-  <nav aria-label="Разделы">
-    <a href="#uslugi">Кого возим</a>
-    <a href="#calc">Калькулятор</a>
-    <a href="avtopark/">Автопарк</a>
-    <a href="stati/">Статьи</a>
-    <a href="kontakty/">Контакты</a>
-  </nav>
-  <a class="pill" href="#calc">Рассчитать перевозку</a>
-</div>
-<div class="light" id="main">
-
-<section class="clients" id="klienty">
-  <div class="wrap">
-    <div class="row">
-      <div class="brand-card glass reveal">
-        <div>
-          <span class="kicker">Каждый день</span>
-          <h2><span class="lit">Возим сотрудников</span> складов Wildberries и Ozon</h2>
-        </div>
-        <div class="logos">
-          <div class="logo-plate"><img src="img/wb.svg" alt="Wildberries" width="500" height="75"></div>
-          <div class="logo-plate oz"><img src="img/ozon.svg" alt="Ozon" width="485" height="106"></div>
-        </div>
-        <p class="brand-note">Знаем, как работают смены на больших складах: ранний выезд, точное время у проходной, рейсы в обе стороны.</p>
-      </div>
-      <div class="routes glass reveal" style="--i:1">
-        <h3>Маршруты, по которым уже возим</h3>
-        <p class="sub">Подберём рейс от метро или города до вашего объекта</p>
-        <ul class="route-list">
-<li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></i>м. Бульвар Дмитрия Донского <span>→ Подольск, Коледино, склад</span></li>
-<li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></i>м. Домодедовская <span>→ Домодедово, склад</span></li>
-<li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></i>Ногинск <span>→ Электросталь, завод</span></li>
-<li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></i>м. Речной вокзал <span>→ Солнечногорск, склад</span></li>
-<li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></i>м. Медведково <span>→ Пушкино, склад</span></li>
-<li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></i>м. Орехово <span>→ Видное, склад</span></li>
-        </ul>
+      <div class="hero__bus">
+        <img src="img/hero-bus.webp" alt="Автобус ВС ТРАНС БУС" width="1536" height="1024" fetchpriority="high">
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="services" id="uslugi">
-  <div class="wrap">
-    <div class="head">
-      <h2><span class="lit">Возим смены</span><br>туда, где работают ваши люди</h2>
-      <p>Выберите объект, и заявка уйдёт менеджеру сразу с ним.</p>
+  <section class="about reveal" id="o-nas">
+    <div class="about__head">
+      <p class="eyebrow eyebrow--light">о компании</p>
+      <h2 class="about__title">Довозим смены<br>вовремя, каждый день</h2>
     </div>
-    <div class="grid">
-    <article class="svc" style="--i:0">
-      <img src="img/razvozka.webp" alt="" loading="lazy" width="1536" height="1024">
-      <h3>Склады и маркетплейсы</h3>
-      <p>Смены на распределительные центры и склады Подмосковья.</p>
-      <button class="svc-go" type="button" data-service="Склады и маркетплейсы" aria-label="Рассчитать: Склады и маркетплейсы"><span class="pill">Рассчитать</span><span class="round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
-    </article>
-    <article class="svc" style="--i:1">
-      <img src="img/zavod.webp" alt="" loading="lazy" width="1536" height="1024">
-      <h3>Заводы и производства</h3>
-      <p>Рейсы к проходной под начало и конец каждой смены.</p>
-      <button class="svc-go" type="button" data-service="Заводы и производства" aria-label="Рассчитать: Заводы и производства"><span class="pill">Рассчитать</span><span class="round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
-    </article>
-    <article class="svc" style="--i:2">
-      <img src="img/ofis.webp" alt="" loading="lazy" width="1536" height="1024">
-      <h3>Офисы и бизнес-центры</h3>
-      <p>Утром на работу, вечером к метро и домой.</p>
-      <button class="svc-go" type="button" data-service="Офисы и бизнес-центры" aria-label="Рассчитать: Офисы и бизнес-центры"><span class="pill">Рассчитать</span><span class="round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
-    </article>
-    </div>
-    <p class="also">Также сдаём автобусы с водителем на корпоративы, свадьбы и трансферы в аэропорт. <button class="svc-go link" type="button" data-service="Автобус с водителем на мероприятие">Узнать стоимость</button></p>
-  </div>
-</section>
+    <p class="about__text">30+ своих машин, 45+ водителей и 15+ маршрутов по Москве и области. Каждый день перевозим больше 5000 пассажиров.</p>
+    <a class="btn btn--ghost" href="#rabota">Узнать больше <span class="btn__arrow" aria-hidden="true"></span></a>
+  </section>
 
-<section class="sec" id="calc">
-  <div class="wrap">
-    <div class="head">
-      <h2><span class="lit">Сколько стоит</span><br>перевозка вашей смены</h2>
-      <p>Двигайте ползунки: калькулятор подберёт машины и покажет примерную сумму в месяц.</p>
+  <section class="block" id="uslugi">
+    <div class="block__head reveal">
+      <div>
+        <p class="eyebrow">что мы делаем</p>
+        <h2 class="block__title">Кого возим</h2>
+      </div>
+      <a class="link" href="#kontakty">Обсудить маршрут <span class="link__arrow" aria-hidden="true"></span></a>
     </div>
-    <form class="calc" id="calc-form" novalidate>
-      <input type="hidden" name="service">
-      <div class="calc-in glass reveal">
-        <div class="ctl">
-          <div class="ctl-top"><label for="c-people">Человек в смене</label><output data-o="people">60</output></div>
-          <input id="c-people" name="people" type="range" min="5" max="500" step="5" value="60">
-        </div>
-        <div class="ctl">
-          <div class="ctl-top"><span class="l" id="c-sh">Смен в сутки</span></div>
-          <div class="seg" role="radiogroup" aria-labelledby="c-sh">
-            <label><input type="radio" name="shifts" value="1" checked><span>Одна смена</span></label>
-            <label><input type="radio" name="shifts" value="2"><span>Две смены</span></label>
+    <div class="cards">
+      <a class="card reveal" href="#kontakty">
+        <h3 class="card__title">Склады</h3>
+        <p class="card__text">Сотрудники складов и распределительных центров. Дневные и ночные смены.</p>
+        <img class="card__img" src="img/sklad.webp" alt="Автобус у склада" width="1100" height="733" loading="lazy">
+        <span class="card__go" aria-hidden="true"></span>
+      </a>
+      <a class="card reveal" href="#kontakty">
+        <h3 class="card__title">Заводы</h3>
+        <p class="card__text">Рабочие смены на производство по графику предприятия.</p>
+        <img class="card__img" src="img/zavod.webp" alt="Автобус у завода" width="1100" height="733" loading="lazy">
+        <span class="card__go" aria-hidden="true"></span>
+      </a>
+      <a class="card reveal" href="#kontakty">
+        <h3 class="card__title">Офисы</h3>
+        <p class="card__text">Сотрудники офисов и бизнес-центров. Маршрут от метро или от дома.</p>
+        <img class="card__img" src="img/ofis.webp" alt="Микроавтобус у бизнес-центра" width="1100" height="733" loading="lazy">
+        <span class="card__go" aria-hidden="true"></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="block" id="rabota">
+    <div class="block__head reveal">
+      <div>
+        <p class="eyebrow">как мы работаем</p>
+        <h2 class="block__title">Берём на себя всё</h2>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Как мы работаем">
+        <button class="tab is-on" type="button" data-tab="0">Маршрут</button>
+        <button class="tab" type="button" data-tab="1">Водители</button>
+        <button class="tab" type="button" data-tab="2">Ремонт</button>
+        <button class="tab" type="button" data-tab="3">Каждый день</button>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step reveal is-on" data-step="0">
+        <svg class="step__icon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="9" cy="31" r="4"/><circle cx="31" cy="9" r="4"/><path d="M13 31h12a6 6 0 0 0 0-12H15a6 6 0 0 1 0-12h12"/></svg>
+        <h3 class="step__title">Маршрут под смену</h3>
+        <p class="step__text">Строим маршрут и расписание под время начала и конца ваших смен.</p>
+      </div>
+      <div class="step reveal" data-step="1">
+        <svg class="step__icon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="13" r="6"/><path d="M8 34c1.5-7 6-10 12-10s10.5 3 12 10"/></svg>
+        <h3 class="step__title">Свои водители</h3>
+        <p class="step__text">45+ водителей. За каждым маршрутом закреплены люди, которые его знают.</p>
+      </div>
+      <div class="step reveal" data-step="2">
+        <svg class="step__icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 34V16L20 6l15 10v18"/><path d="M12 34V22h16v12"/><path d="M12 27h16"/></svg>
+        <h3 class="step__title">Свой ремонтный ангар</h3>
+        <p class="step__text">Обслуживаем машины сами, поэтому на линию они выходят исправными.</p>
+      </div>
+      <div class="step reveal" data-step="3">
+        <svg class="step__icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="9" width="28" height="25" rx="3"/><path d="M6 16h28M13 5v7M27 5v7"/><path d="M14 25l4 4 8-8"/></svg>
+        <h3 class="step__title">5000+ пассажиров в день</h3>
+        <p class="step__text">15+ маршрутов работают каждый день по Москве и области.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="park">
+    <div class="block__head reveal">
+      <div>
+        <p class="eyebrow">на чём возим</p>
+        <h2 class="block__title">Автопарк</h2>
+      </div>
+      <a class="link" href="#kontakty">Подобрать машину <span class="link__arrow" aria-hidden="true"></span></a>
+    </div>
+    <div class="cards">
+      <a class="card reveal" href="#kontakty">
+        <h3 class="card__title">Большой автобус</h3>
+        <p class="card__text">Для больших смен и дальних маршрутов.</p>
+        <img class="card__img" src="img/park-big.webp" alt="Большой автобус ВС ТРАНС БУС" width="1100" height="733" loading="lazy">
+        <span class="card__go" aria-hidden="true"></span>
+      </a>
+      <a class="card reveal" href="#kontakty">
+        <h3 class="card__title">Средний автобус</h3>
+        <p class="card__text">Для смен поменьше и маршрутов по области.</p>
+        <img class="card__img" src="img/park-mid.webp" alt="Средний автобус ВС ТРАНС БУС" width="1100" height="733" loading="lazy">
+        <span class="card__go" aria-hidden="true"></span>
+      </a>
+      <a class="card reveal" href="#kontakty">
+        <h3 class="card__title">Микроавтобус</h3>
+        <p class="card__text">Для небольших групп и офисов.</p>
+        <img class="card__img" src="img/park-mini.webp" alt="Микроавтобус ВС ТРАНС БУС" width="1100" height="733" loading="lazy">
+        <span class="card__go" aria-hidden="true"></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="final reveal" id="kontakty">
+    <div class="final__text">
+      <p class="eyebrow eyebrow--light">рассчитайте поездку</p>
+      <h2 class="final__title">Напишите нам,<br>рассчитаем маршрут</h2>
+      <p class="final__lead">Менеджеры на связи с 8:00 до 21:00. Если напишете ночью, ответим утром.</p>
+      <div class="final__btns">
+        <a class="btn btn--soft" href="#" data-msg="wa">WhatsApp <span class="btn__arrow" aria-hidden="true"></span></a>
+        <a class="btn btn--ghost" href="#" data-msg="tg">Telegram</a>
+        <a class="btn btn--ghost" href="#" data-msg="max">MAX</a>
+      </div>
+    </div>
+    <div class="final__art" aria-hidden="true">
+      <div class="phone">
+        <div class="phone__screen">
+          <div class="phone__bar"><span>9:41</span><span class="phone__island"></span><span>5G</span></div>
+          <div class="chat__head">
+            <span class="chat__ava"></span>
+            <div><div class="chat__name">ВС ТРАНС БУС, менеджер</div><div class="chat__status">в сети</div></div>
           </div>
-        </div>
-        <div class="ctl">
-          <div class="ctl-top"><label for="c-hours">Часов работы машин на смену</label><output data-o="hours">4 ч</output></div>
-          <input id="c-hours" name="hours" type="range" min="4" max="12" step="1" value="4">
-          <small>Привезти смену и отвезти домой. Минимальный заказ 4 часа.</small>
-        </div>
-        <div class="ctl">
-          <div class="ctl-top"><label for="c-days">Рабочих дней в месяц</label><output data-o="days">22</output></div>
-          <input id="c-days" name="days" type="range" min="1" max="31" step="1" value="22">
+          <div class="chat__body">
+            <span class="chat__day">Сегодня</span>
+            <div class="msg msg--me">Здравствуйте! Нужно возить 40 человек на склад в Подольске, смена в 8:00<time>9:38</time></div>
+            <div class="msg msg--we">Добрый день! Посчитаю маршрут и пришлю расчёт<time>9:40</time></div>
+            <div class="typing"><i></i><i></i><i></i></div>
+          </div>
+          <div class="chat__input">Сообщение</div>
         </div>
       </div>
-      <div class="calc-out reveal" style="--i:1">
-        <span class="lbl">Примерно</span>
-        <div class="big" data-o="month" aria-live="polite">0</div>
-        <div class="per">
-          <div><b data-o="day">0</b><span>в день</span></div>
-          <div><b data-o="seat">0</b><span>поездка одного сотрудника</span></div>
-        </div>
-        <p class="cars"><span data-o="cnt"></span>: <b data-o="cars"></b></p>
-        <div class="go">
-          <button class="pill" type="submit">Отправить расчёт менеджеру</button>
-          <button class="round" type="submit" aria-label="Отправить расчёт менеджеру"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></button>
-        </div>
-        <div class="send" aria-live="polite">
-        <p>Заявка готова. Выберите, куда отправить менеджеру:</p>
-        <div class="msgs">
-          <a href="#" data-m="whatsapp" target="_blank" rel="noopener">WhatsApp</a>
-          <a href="#" data-m="telegram" target="_blank" rel="noopener">Telegram</a>
-          <a href="#" data-m="max" target="_blank" rel="noopener">MAX</a>
-        </div>
-        <p class="msg-note"></p>
-      </div>
-        <p class="fine">Расчёт примерный: микроавтобус от 3 000 ₽/ч, средний автобус от 4 000 ₽/ч, туристический от 4 200 ₽/ч. Точную цену назовёт менеджер после маршрута.</p>
-      </div>
-    </form>
-  </div>
-</section>
+    </div>
+  </section>
 
-<section class="sec" id="kak">
-  <div class="wrap">
-    <div class="head">
-      <h2><span class="lit">Как запускаем</span><br>перевозку</h2>
-      <p>От заявки до первого рейса четыре шага.</p>
-    </div>
-    <div class="steps route-line">
-      <div class="step reveal" style="--i:0"><span class="n">1</span><h3>Вы присылаете адреса</h3><p>Откуда забирать людей, куда везти, сколько человек и какой график смен.</p></div>
-      <div class="step reveal" style="--i:1"><span class="n">2</span><h3>Строим маршрут</h3><p>Ставим остановки, подбираем машины под смену и считаем цену.</p></div>
-      <div class="step reveal" style="--i:2"><span class="n">3</span><h3>Заключаем договор</h3><p>Фиксируем маршрут, время рейсов и стоимость.</p></div>
-      <div class="step reveal" style="--i:3"><span class="n">4</span><h3>Выходим на линию</h3><p>Машины возят смены по графику. Поменялся график, перестроим маршрут.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec tight" id="voprosy">
-  <div class="wrap">
-    <div class="head"><h2><span class="lit">Частые</span> вопросы</h2><p>Не нашли ответ? Напишите менеджеру, ответим с 8:00 до 21:00.</p></div>
-    <div class="qa-grid">
-<div class="qa reveal" style="--i:0"><h3>Сколько стоит перевозка сотрудников?</h3><p>Цена зависит от машины и часов работы: микроавтобус от 3 000 ₽ в час, средний автобус от 4 000 ₽, туристический от 4 200 ₽. Минимальный заказ 4 часа. Примерную сумму в месяц покажет калькулятор, точную назовёт менеджер после маршрута.</p></div>
-<div class="qa reveal" style="--i:1"><h3>Как быстро ответите на заявку?</h3><p>Менеджеры отвечают с 8:00 до 21:00. Если пишете ночью, ответим утром с 8:00 до 11:00.</p></div>
-<div class="qa reveal" style="--i:0"><h3>Можно возить и дневную, и ночную смену?</h3><p>Да. Отметьте обе смены в заявке, и мы посчитаем рейсы под каждую.</p></div>
-<div class="qa reveal" style="--i:1"><h3>Куда вы возите?</h3><p>По Москве и Московской области: от метро и городов до складов, заводов, производств и офисов.</p></div>
-<div class="qa reveal" style="--i:0"><h3>Сколько человек помещается в машину?</h3><p>Микроавтобус 15–20 мест, средний автобус 17–31, туристический 37–55. Под большую смену ставим несколько машин.</p></div>
-<div class="qa reveal" style="--i:1"><h3>Как оставить заявку?</h3><p>Заполните конструктор или калькулятор и выберите WhatsApp, Telegram или MAX. Сайт не собирает имена и телефоны: вы пишете менеджеру сами.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec tight">
-  <div class="wrap">
-    <div class="final reveal">
-      <h2><span class="lit">Пришлите адреса</span> и график смен</h2>
-      <p>Построим маршрут, подберём машины и назовём цену. Ответим в мессенджере с 8:00 до 21:00.</p>
-      <div class="acts"><a class="pill" href="#calc">Рассчитать стоимость</a><a class="tlink" href="kontakty/">или написать менеджеру</a></div>
-    </div>
-  </div>
-</section>
+  <footer class="foot">
+    <img class="foot__logo" src="img/logo.svg" alt="ВС ТРАНС БУС" width="200" height="31">
+    <p class="foot__note">Перевозка сотрудников<br>по Москве и области</p>
+    <p class="foot__note">Менеджеры: 8:00–21:00</p>
+    <p class="foot__note foot__copy">© 2026 ВС ТРАНС БУС</p>
+    <a class="foot__up" href="#" aria-label="Наверх"></a>
+  </footer>
 
 </div>
-<footer class="foot">
-  <div class="wrap">
-    <div class="cols">
-      <div><img src="img/logo.svg" alt="ВС ТРАНС БУС" width="141" height="22"><p class="about">Перевозка сотрудников на склады, заводы и в офисы. Москва и Московская область.</p></div>
-      <nav class="links" aria-label="Разделы сайта"><a href="#uslugi">Кого возим</a><a href="#calc">Калькулятор</a><a href="sklady/">Склады и маркетплейсы</a><a href="avtopark/">Автопарк</a><a href="stati/">Статьи</a><a href="kontakty/">Контакты</a></nav>
-      <div><p class="fh">Связь</p><p>Отвечаем с 8:00 до 21:00</p><p>Ночью пишите, ответим утром до 11:00</p><a href="kontakty/">WhatsApp, Telegram, MAX</a></div>
-    </div>
-    <p class="copy">© ВС ТРАНС БУС, 2026. Цены на сайте примерные и не являются публичной офертой. <a href="politika/">Политика конфиденциальности</a></p>
-  </div>
-</footer>
-<script src="js/site.js?v=11031300"></script>
+<script src="js/site.js"></script>
 </body>
 </html>
