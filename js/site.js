@@ -26,6 +26,23 @@ const io = new IntersectionObserver((entries) => {
 }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
+// в меню подсвечен раздел, который сейчас на экране
+const navLinks = [...document.querySelectorAll('.top__nav a')];
+const navTargets = navLinks.map((a) => document.querySelector(a.getAttribute('href')));
+function markSection() {
+  const mid = innerHeight * .3;
+  let cur = -1, best = -Infinity;
+  navTargets.forEach((s, i) => {
+    const t = s ? s.getBoundingClientRect().top : Infinity;
+    if (t <= mid && t > best) { best = t; cur = i; }
+  });
+  // внизу страницы последний раздел не может доехать до верха, но он уже на экране
+  if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = navLinks.length - 1;
+  navLinks.forEach((a, i) => a.classList.toggle('is-on', i === cur));
+}
+addEventListener('scroll', markSection, { passive: true });
+markSection();
+
 // вкладки «Как работаем» подсвечивают свою карточку
 const tabs = document.querySelectorAll('.tab');
 const steps = document.querySelectorAll('.step');
